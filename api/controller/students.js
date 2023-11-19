@@ -6,17 +6,20 @@ class StudentsController {
       const {
         first_name,
         last_name,
-        age,
-        address,
+        // age,
+        // address,
         email,
-        mobile,
-        subjects,
+        // mobile,
+        // subjects,
         password,
         profile,
-        gender,
+        // gender,
       } = req.body;
+      // const findUser = await Student.findOne({
+      //   $or: [{ email: { $eq: email } }, { mobile: { $eq: mobile } }],
+      // });
       const findUser = await Student.findOne({
-        $or: [{ email: { $eq: email } }, { mobile: { $eq: mobile } }],
+        email: email,
       });
       if (findUser) {
         res
@@ -28,14 +31,14 @@ class StudentsController {
         const user = new Student({
           first_name,
           last_name,
-          age,
-          address,
+          // age,
+          // address,
           email,
-          mobile,
-          subjects,
+          // mobile,
+          // subjects,
           password: hashPass,
           profile,
-          gender,
+          // gender,
         });
         const data = await user.save();
         res.status(200).json({ msg: "sucessfuly resgistered" });
@@ -50,20 +53,22 @@ class StudentsController {
       const { email, password } = req.query;
       const findUser = await Student.findOne({ email });
       if (!findUser) {
-        res.status(404).json({ msg: "user not found" });
-        return;
+        return res
+          .status(404)
+          .json({ status: false, message: "wrong credentials email/password" });
       }
       const findPass = await CommanFunction.comaprePassword(
         password,
         findUser.password
       );
       if (findPass !== true) {
-        res.json({ msg: "wrong password" });
-        return;
+        return res
+          .status(404)
+          .json({ status: false, message: "wrong credentials email/password" });
       } else
         res.status(200).json({
           status: true,
-          msg: "successfull login",
+          message: "successfull login",
           token: await CommanFunction.token(findUser._id),
         });
     } catch (err) {

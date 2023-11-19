@@ -8,54 +8,58 @@ class TeachersController {
       const {
         first_name,
         last_name,
-        age,
-        address,
+        // age,
+        // address,
         email,
-        mobile,
-        subjects,
+        // mobile,
+        // subjects,
         password,
         profile,
-        gender,
+        // gender,
         confirmPassword,
       } = req.body;
-      const errors = await CommanFunction.validationCheck(
-        first_name,
+      // const errors = await CommanFunction.validationCheck(
+      first_name,
         last_name,
-        age,
-        address,
+        // age,
+        // address,
         email,
-        mobile,
-        subjects,
+        // mobile,
+        // subjects,
         password,
         profile,
-        gender,
-        confirmPassword
-      );
-      if (errors.length > 0) {
-        return res.status(400).json({ msg: errors });
-      }
+        // gender,
+        confirmPassword;
+      // );
+      // if (errors.length > 0) {
+      //   return res.status(400).json({ msg: errors });
+      // }
 
+      // const findUser = await Teacher.findOne({
+      //   $or: [{ email: { $eq: email } },
+      //      { mobile: { $eq: mobile } }
+      //     ],
+      // });
       const findUser = await Teacher.findOne({
-        $or: [{ email: { $eq: email } }, { mobile: { $eq: mobile } }],
+        email: email,
       });
       if (findUser) {
-        res
+        return res
           .status(404)
           .json({ msg: "users exist use another email or mobile" });
-        return;
       } else {
         const hashPass = await CommanFunction.hashPassword(password);
         const user = new Teacher({
           first_name,
           last_name,
-          age,
-          address,
+          // age,
+          // address,
           email,
-          mobile,
-          subjects,
+          // mobile,
+          // subjects,
           password: hashPass,
           profile,
-          gender,
+          // gender,
         });
         const data = await user.save();
         res.status(200).json({ msg: "successful register" });
@@ -70,22 +74,29 @@ class TeachersController {
       const { email, password } = req.query;
       const findUser = await Teacher.findOne({ email });
       if (!findUser) {
-        return res.status(400).json({ msg: "user not found" });
+        return res
+          .status(404)
+          .json({ status: false, message: "wrong credentials email/password" });
+        // return res.status(400).json({ msg: "user not found" });
       }
       const findPass = await CommanFunction.comaprePassword(
         password,
         findUser.password
       );
       if (findPass !== true) {
-        return res.status(400).json({ msg: "wrong password" });
+        return res
+          .status(404)
+          .json({ status: false, message: "wrong credentials email/password" });
+        // return res.status(400).json({ msg: "wrong password" });
       } else
-        res.json({
-          msg: "logged in sucessfully",
+        res.status(200).json({
+          status: true,
+          message: "logged in sucessfully",
           token: await CommanFunction.token(findUser._id),
         });
     } catch (err) {
       console.error("Error creating user:", err);
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
   static async allTeachers(req, res) {
