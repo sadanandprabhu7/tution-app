@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 const addressSchema = new mongoose.Schema({
-  house_number: String,
-  street: String,
+  // house_number: String,
+  // street: String,
   landmark: String,
   city: String,
   district: String,

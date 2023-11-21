@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { useSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
-
+import { useAuth } from "./auth/AuthContext";
 function Login() {
+  const { login } = useAuth();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -38,9 +39,12 @@ function Login() {
       .then((data) => {
         console.log(data);
         if (data.status) {
-          localStorage.setItem("token", data.token);
+          login(data.token);
+
+          // localStorage.setItem("token", data.token);
           alert(`${data.message}`);
-          Navigate("/sign-up");
+          // Navigate("/sign-up");
+          Navigate("/registration");
         }
         alert(`${data.message}`);
       })
