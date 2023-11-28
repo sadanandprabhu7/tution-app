@@ -1,5 +1,5 @@
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 class CommanFunction {
   static async token(id) {
     const data = jwt.sign({ id }, process.env.SECRETE_KEY_JWT);
@@ -86,8 +86,8 @@ class CommanFunction {
   }
 
   static async addressVerify(
-    house_number,
-    street,
+    // house_number,
+    // street,
     landmark,
     city,
     pin_code,
@@ -95,8 +95,8 @@ class CommanFunction {
   ) {
     const error = [];
     if (
-      !house_number ||
-      !street ||
+      // !house_number ||
+      // !street ||
       !landmark ||
       !city ||
       !pin_code ||
@@ -177,4 +177,4 @@ class CommanFunction {
     return givenSubject.every((ele) => originalSubject.includes(ele));
   }
 }
-module.exports = CommanFunction;
+export default CommanFunction;

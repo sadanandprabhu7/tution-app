@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const Teacher = require("../model/teachers");
-const CommanFunction = require("../utils/commanFunction");
-const { findPineCode } = require("../utils/dbConnect");
+import mongoose from "mongoose";
+import Teacher from "../model/teachers.js";
+import CommanFunction from "../utils/commanFunction.js";
+import findPineCode from "../utils/dbConnect.js";
 class TeachersController {
   static async teachersCreation(req, res) {
     try {
@@ -111,27 +111,29 @@ class TeachersController {
   static async updateTeachersAddress(req, res) {
     try {
       const {
-        house_number,
-        street,
+        // house_number,
+        // street,
         landmark,
-        city,
-        pin_code,
-        alternate_pin_code,
+        // city,
+        pinCode,
+        // alternate_pin_code,
       } = req.body;
-      const valid = await CommanFunction.addressVerify(
-        house_number,
-        street,
-        landmark,
-        city,
-        pin_code,
-        alternate_pin_code
-      );
-      if (valid.length > 0) {
-        return res.status(400).json({ msg: valid[0] });
-      }
-      const pin = parseInt(pin_code);
+      // const valid = await CommanFunction.addressVerify(
+      //   // house_number,
+      //   street,
+      //   landmark,
+      //   city,
+      //   pin_code,
+      //   alternate_pin_code
+      // );
+      // if (valid.length > 0) {
+      //   return res.status(400).json({ msg: valid[0] });
+      // }
+      console.log(req.body, "bofy+++++++++++");
+      const pin = parseInt(pinCode);
       const query = { pinCode: pin };
       const foundPin = await findPineCode(query);
+      console.log(foundPin, "foundPin++++++++++++++++++++++");
       if (!foundPin)
         return res.status(404).json({ msg: "enter valid pin code" });
       req.body.area = foundPin[0].name;
@@ -143,6 +145,7 @@ class TeachersController {
         {
           $push: { address: req.body },
           $set: { "status.address_status": true },
+          $set: { current_status: 2 },
         }
       );
       console.log(updatedAddress);
@@ -209,7 +212,7 @@ class TeachersController {
       const found = await Teacher.findById(req.user._id);
       res
         .status(200)
-        .json({ data: found, info: found.status, msg: "successfully" });
+        .json({ data: found, info: found.current_status, msg: "successfully" });
     } catch (err) {
       res.status(500).json({ msg: "Internal Server Error" });
     }
@@ -272,4 +275,4 @@ class TeachersController {
     }
   }
 }
-module.exports = TeachersController;
+export default TeachersController;

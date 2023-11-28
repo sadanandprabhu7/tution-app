@@ -4,46 +4,131 @@ import TextField from "@material-ui/core/TextField";
 import Checkbox from "@material-ui/core/Checkbox";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 function Times() {
-  const [selectedSubjects, setSelectedSubjects] = React.useState([]);
-  console.log(selectedSubjects, "selectedSubjects++++++++++++");
-  const handleSubjectChange = (subject) => {
-    if (selectedSubjects.includes(subject)) {
-      setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
+  const [selectedTimes, setselectedTimes] = React.useState([]);
+  console.log(selectedTimes, "selectedTimes++++++++++++");
+  const handleTimesChange = (times) => {
+    if (selectedTimes.includes(times)) {
+      setselectedTimes(selectedTimes.filter((item) => item !== times));
     } else {
-      setSelectedSubjects([...selectedSubjects, subject]);
+      setselectedTimes([...selectedTimes, times]);
     }
   };
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={1}>
       <Grid item xs={12} sm={6}>
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={selectedSubjects.includes("hindi")}
-              onChange={() => handleSubjectChange("hindi")}
+        <Grid container spacing={1}>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedTimes.includes("11 AM")}
+                  onChange={() => handleTimesChange("11 AM")}
+                />
+              }
+              label="11 AM"
             />
-          }
-          label="11 AM"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={selectedSubjects.includes("english")}
-              onChange={() => handleSubjectChange("english")}
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedTimes.includes("12 PM")}
+                  onChange={() => handleTimesChange("12 PM")}
+                />
+              }
+              label="12 PM"
             />
-          }
-          label="12 PM"
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={selectedSubjects.includes("history")}
-              onChange={() => handleSubjectChange("history")}
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedTimes.includes("6 PM")}
+                  onChange={() => handleTimesChange("6 PM")}
+                />
+              }
+              label="6 PM"
             />
-          }
-          label="6 PM"
-        />
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedTimes.includes("6 PM")}
+                  onChange={() => handleTimesChange("6 PM")}
+                />
+              }
+              label="6 PM"
+            />
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedTimes.includes("6 PM")}
+                  onChange={() => handleTimesChange("6 PM")}
+                />
+              }
+              label="6 PM"
+            />
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedTimes.includes("6 PM")}
+                  onChange={() => handleTimesChange("6 PM")}
+                />
+              }
+              label="6 PM"
+            />
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedTimes.includes("6 PM")}
+                  onChange={() => handleTimesChange("6 PM")}
+                />
+              }
+              label="6 PM"
+            />
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedTimes.includes("6 PM")}
+                  onChange={() => handleTimesChange("6 PM")}
+                />
+              }
+              label="6 PM"
+            />
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedTimes.includes("6 PM")}
+                  onChange={() => handleTimesChange("6 PM")}
+                />
+              }
+              label="6 PM"
+            />
+          </Grid>
+          <Grid item>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={selectedTimes.includes("6 PM")}
+                  onChange={() => handleTimesChange("6 PM")}
+                />
+              }
+              label="6 PM"
+            />
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );

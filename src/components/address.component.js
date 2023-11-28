@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { useAuth } from "../components/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   "@global": {
@@ -39,99 +40,92 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Address() {
+  const { token } = useAuth();
+
   const classes = useStyles();
 
-  const [selectedSubjects, setSelectedSubjects] = React.useState([]);
-  console.log(selectedSubjects, "selectedSubjects++++++++++++");
-  const handleSubjectChange = (subject) => {
-    if (selectedSubjects.includes(subject)) {
-      setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
-    } else {
-      setSelectedSubjects([...selectedSubjects, subject]);
-    }
+  // State variables for each input field
+  const [city, setCity] = useState("");
+  const [district, setDistrict] = useState("");
+  const [state, setState] = useState("");
+  const [pinCode, setPinCode] = useState("");
+  const [landmark, setLandmark] = useState("");
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Collect data from state variables
+    const addressData = {
+      // city,
+      // district,
+      // state,
+      pinCode,
+      landmark,
+    };
+    console.log(addressData, "addressData++++++++++++++++");
+    // Call your POST API with the collected data
+    // Example using fetch API
+    fetch("http://localhost:3000/updateTeachersAddress", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(addressData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Handle the response data
+        console.log("API response:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
+      {/* <div className={classes.paper}> */}
+      {/* <Typography component="h1" variant="h5">
           Fill Your Address
-        </Typography>
-        <form className={classes.form} noValidate>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="City"
-                label="City"
-                type="City"
-                id="City"
-                autoComplete="City"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="District"
-                label="District"
-                type="District"
-                id="District"
-                autoComplete="District"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="State"
-                label="State"
-                type="State"
-                id="State"
-                autoComplete="State"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="Pin Code"
-                label="Pin Code"
-                type="Pin Code"
-                id="Pin Code"
-                autoComplete="Pin Code"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                name="Landmark"
-                label="Landmark"
-                type="Landmark"
-                id="Landmark"
-                autoComplete="Landmark"
-              />
-            </Grid>
+        </Typography> */}
+      <form className={classes.form} onSubmit={handleSubmit} noValidate>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              name="pinCode"
+              label="Pin Code"
+              value={pinCode}
+              onChange={(e) => setPinCode(e.target.value)}
+            />
           </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Submit
-          </Button>
-        </form>
-      </div>
+          <Grid item xs={12}>
+            <TextField
+              variant="outlined"
+              required
+              fullWidth
+              name="landmark"
+              label="Landmark"
+              value={landmark}
+              onChange={(e) => setLandmark(e.target.value)}
+            />
+          </Grid>
+        </Grid>
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
+          Submit
+        </Button>
+      </form>
+      {/* </div> */}
     </Container>
   );
 }

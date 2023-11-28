@@ -1,5 +1,5 @@
-const { MongoClient } = require("mongodb");
-const dotenv = require("dotenv");
+import { MongoClient } from "mongodb";
+import dotenv from "dotenv";
 dotenv.config();
 const URL_CLIENT = process.env.URL_CLIENT;
 const DB_NAME = process.env.DB_NAME;
@@ -20,4 +20,4 @@ async function findPineCode(query) {
   }
 }
 
-module.exports = { findPineCode };
+export default findPineCode;

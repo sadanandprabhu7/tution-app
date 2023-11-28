@@ -1,8 +1,8 @@
-const express = require("express");
+import express from "express";
 const Router = express.Router();
-const Authorization = require("../middleware/authentication");
-const studentsController = require("../controller/students");
-const teachersController = require("../controller/teachers");
+import Authorization from "../middleware/authentication.js";
+import studentsController from "../controller/students.js";
+import teachersController from "../controller/teachers.js";
 Router.route("/").get((req, res) => {
   res.send("test api");
 });
@@ -28,9 +28,10 @@ Router.route("/updateTeachersClass").post(
 Router.route("/updateTeachersSubject").post(
   teachersController.updateTeachersSubject
 );
-Router.route("/teachersStatus").get(teachersController.teachersStatus);
+Router.route("/teachers/status").get(teachersController.teachersStatus);
 Router.route("/teachersDashboard").get(teachersController.teachersDashboard);
 Router.route("/teachersStatusChange").post(
   teachersController.teachersStatusChange
 );
-module.exports = Router;
+
+export default Router;

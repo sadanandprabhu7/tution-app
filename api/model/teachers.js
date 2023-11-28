@@ -1,5 +1,4 @@
-const mongoose = require("mongoose");
-
+import mongoose from "mongoose";
 const addressSchema = new mongoose.Schema({
   // house_number: String,
   // street: String,
@@ -25,6 +24,10 @@ const addressSchema = new mongoose.Schema({
 });
 
 const TeacherSchema = new mongoose.Schema({
+  current_status: {
+    type: Number,
+    default: 1,
+  },
   status: {
     address_status: {
       type: Boolean,
@@ -80,4 +83,4 @@ const TeacherSchema = new mongoose.Schema({
 });
 
 const Teacher = mongoose.model("teachers", TeacherSchema);
-module.exports = Teacher;
+export default Teacher;

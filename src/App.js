@@ -13,7 +13,8 @@ import { AuthProvider } from "./components/auth/AuthContext";
 
 import Login from "./components/login.component";
 import SignUp from "./components/signup.component";
-import Registration from "./components/registration.component";
+import RegistrationFunction from "./components/RegistrationFunction";
+// import Registration from "./components/registration.component";
 
 function App() {
   return (
@@ -57,7 +58,7 @@ function App() {
                   <Route
                     exact
                     path="/registration"
-                    element={<Registration />}
+                    element={<RegistrationFunction />}
                   />
                 </Route>
               </Routes>
