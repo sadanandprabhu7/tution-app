@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
-import Teacher from "../model/teachers.js";
-import CommanFunction from "../utils/commanFunction.js";
-import findPineCode from "../utils/dbConnect.js";
+const mongoose = require("mongoose");
+const Teacher = require("../model/teachers");
+const CommanFunction = require("../utils/commanFunction");
+const findPineCode = require("../utils/dbConnect");
 class TeachersController {
   static async teachersCreation(req, res) {
     try {
@@ -162,8 +162,8 @@ class TeachersController {
       const updateTeachersTime = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
         {
-          $push: { times: req.body.time },
-          $set: { "status.time_status": true },
+          $set: { times: req.body.time, current_status: 3 },
+          // $set: { "status.time_status": true },
         }
       );
       console.log(updateTeachersTime);
@@ -179,8 +179,8 @@ class TeachersController {
       const updateTeachersClass = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
         {
-          $push: { classes: req.body.class },
-          $set: { "status.class_status": true },
+          $set: { classes: req.body.class, current_status: 5 },
+          // $set: { "status.class_status": true },
         }
       );
       console.log(updateTeachersClass);
@@ -197,8 +197,8 @@ class TeachersController {
       const updateTeachersSubject = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
         {
-          $push: { subjects: req.body.subject },
-          $set: { "status.subject_status": true },
+          $set: { subjects: req.body.subject, current_status: 4 },
+          // $set: { "status.subject_status": true },
         }
       );
       console.log(updateTeachersSubject.subjects);
@@ -275,4 +275,4 @@ class TeachersController {
     }
   }
 }
-export default TeachersController;
+module.exports = TeachersController;

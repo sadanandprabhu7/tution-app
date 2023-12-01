@@ -11,8 +11,8 @@ import {
 import PrivateRoute from "./components/auth/PrivateRoute";
 import { AuthProvider } from "./components/auth/AuthContext";
 
-import Login from "./components/login.component";
-import SignUp from "./components/signup.component";
+import Login from "./components/login";
+import SignUp from "./components/signup";
 import RegistrationFunction from "./components/RegistrationFunction";
 // import Registration from "./components/registration.component";
 

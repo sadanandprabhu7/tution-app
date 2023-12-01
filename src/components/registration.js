@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import Address from "./address.component";
-import Times from "./times.component";
+import Address from "./address";
+import Times from "./times";
 import Mytbale from "../components/rendertable";
-import FullWidthTabs from "../components/mydetails.component";
+import FullWidthTabs from "../components/mydetails";
 import { useAuth } from "../components/auth/AuthContext";
 
 function Registration() {

@@ -3,8 +3,10 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 // import "./App.css";
 import "../App.css";
-import Address from "./address.component";
-import Times from "./times.component";
+import Address from "./address";
+import Times from "./times";
+import Subjects from "./subjects";
+import Classes from "./classes";
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,7 +16,7 @@ import {
 } from "react-router-dom";
 import PrivateRoute from "../components/auth/PrivateRoute";
 import { AuthProvider } from "../components/auth/AuthContext";
-import Registration from "../components/registration.component";
+import Registration from "../components/registration";
 import { useAuth } from "../components/auth/AuthContext";
 
 function RegistrationFunction() {
@@ -87,8 +89,18 @@ function RegistrationFunction() {
               <h3>Choose Your Time To Teach</h3>
               <Times />
             </div>
+          ) : current_status === 3 ? (
+            <div>
+              <h3>Select Your Time To subject</h3>
+              <Subjects />
+            </div>
+          ) : current_status === 4 ? (
+            <div>
+              <h3>Select Your Classes To Teach</h3>
+              <Classes />
+            </div>
           ) : (
-            <Address />
+            <Times />
           )}
           {/* </div> */}
         </div>

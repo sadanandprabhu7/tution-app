@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 const addressSchema = new mongoose.Schema({
   // house_number: String,
   // street: String,
@@ -83,4 +83,4 @@ const TeacherSchema = new mongoose.Schema({
 });
 
 const Teacher = mongoose.model("teachers", TeacherSchema);
-export default Teacher;
+module.exports = Teacher;

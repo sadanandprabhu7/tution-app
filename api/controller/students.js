@@ -1,5 +1,6 @@
-import Student from "../model/students.js";
-import CommanFunction from "../utils/commanFunction.js";
+const Student = require("../model/students");
+const CommanFunction = require("../utils/commanFunction");
+
 class StudentsController {
   static async studentsCreation(req, res) {
     try {
@@ -85,4 +86,4 @@ class StudentsController {
     }
   }
 }
-export default StudentsController;
+module.exports = StudentsController;

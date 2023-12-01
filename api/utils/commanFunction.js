@@ -1,5 +1,5 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
 class CommanFunction {
   static async token(id) {
     const data = jwt.sign({ id }, process.env.SECRETE_KEY_JWT);
@@ -177,4 +177,4 @@ class CommanFunction {
     return givenSubject.every((ele) => originalSubject.includes(ele));
   }
 }
-export default CommanFunction;
+module.exports = CommanFunction;

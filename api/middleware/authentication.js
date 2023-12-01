@@ -1,7 +1,7 @@
-import Teacher from "../model/teachers.js";
-import Student from "../model/students.js";
-import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
+const Teacher = require("../model/teachers");
+const Student = require("../model/students");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
 dotenv.config();
 class Authorization {
   static async verifyToken(token, key) {
@@ -57,4 +57,4 @@ class Authorization {
     }
   }
 }
-export default Authorization;
+module.exports = Authorization;
