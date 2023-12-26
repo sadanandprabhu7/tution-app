@@ -1,6 +1,8 @@
 import React from "react";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
+import AboutUs from "./components/AboutUs";
+import ContactUs from "./components/ContactUs";
+import Home from "./components/Home";
 import {
   BrowserRouter as Router,
   Routes,
@@ -8,105 +10,24 @@ import {
   Link,
   Navigate,
 } from "react-router-dom";
-import PrivateRoute from "./components/auth/PrivateRoute";
-import { AuthProvider } from "./components/auth/AuthContext";
-
-import Login from "./components/login";
-import SignUp from "./components/signup";
-import RegistrationFunction from "./components/RegistrationFunction";
-// import Registration from "./components/registration.component";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
-    <AuthProvider>
+    <>
       <Router>
-        <div className="App">
-          <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-            <div className="container">
-              <Link className="navbar-brand" to={"/login"}>
-                positronX
-              </Link>
-              <div
-                className="collapse navbar-collapse"
-                id="navbarTogglerDemo02"
-              >
-                <ul className="navbar-nav ml-auto">
-                  <li className="nav-item">
-                    <Link className="nav-link" to={"/login"}>
-                      Login
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to={"/sign-up"}>
-                      Sign up
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-
-          <div className="auth-wrapper">
-            <div className="auth-inner">
-              <Routes>
-                <Route path="/" element={<Login />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/sign-up" element={<SignUp />} />
-                {/* <PrivateRoute path="/registration" element={<Registration />} /> */}
-
-                <Route exact path="/" element={<PrivateRoute />}>
-                  <Route
-                    exact
-                    path="/registration"
-                    element={<RegistrationFunction />}
-                  />
-                </Route>
-              </Routes>
-            </div>
-          </div>
+        <Navbar title="Text Utils"></Navbar>
+        {/* <Alert alert={alert} /> */}
+        <div className="container my-3">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/AboutUs" element={<AboutUs />} />
+            <Route path="/ContactUs" element={<ContactUs />} />
+          </Routes>
         </div>
       </Router>
-    </AuthProvider>
+    </>
   );
 }
-// App.js
-// ... (other imports)
-
-// App.js
-// ... (other imports)
-
-// App.js
-// ... (other imports)
-
-// function App() {
-//   return (
-//     <AuthProvider>
-//       <Router>
-//         <div className="App">
-//           <nav className="navbar navbar-expand-lg navbar-light fixed-top">
-//             {/* Navbar content... */}
-//           </nav>
-
-//           <div className="auth-wrapper">
-//             <div className="auth-inner">
-//               <Routes>
-//                 <Route path="/" element={<Login />} />
-//                 <Route path="/login" element={<Login />} />
-//                 <Route path="/sign-up" element={<SignUp />} />
-//                 <Route exact path="/" element={<PrivateRoute />}>
-//                   <Route
-//                     exact
-//                     path="/registration"
-//                     element={<Registration />}
-//                   />
-//                 </Route>
-//               </Routes>
-//             </div>
-//           </div>
-//         </div>
-//       </Router>
-//     </AuthProvider>
-//   );
-// }
 
 export default App;
