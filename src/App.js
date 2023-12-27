@@ -11,6 +11,8 @@ import {
   Navigate,
 } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import LogIn from "./components/LogIn";
+import SignUp from "./components/SignUp";
 
 function App() {
   return (
@@ -20,9 +22,11 @@ function App() {
         {/* <Alert alert={alert} /> */}
         <div className="container my-3">
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/AboutUs" element={<AboutUs />} />
-            <Route path="/ContactUs" element={<ContactUs />} />
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/AboutUs" element={<AboutUs />} />
+            <Route exact path="/ContactUs" element={<ContactUs />} />
+            <Route exact path="/LogIn" element={<LogIn />} />
+            <Route exact path="/SignUp" element={<SignUp />} />
           </Routes>
         </div>
       </Router>

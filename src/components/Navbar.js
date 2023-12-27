@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 export default function Navbar() {
   return (
     <div>
-      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-          <Link class="navbar-brand" to="/">
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container-fluid">
+          <Link className="navbar-brand" to="/">
             Tution.com
           </Link>
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarSupportedContent"
@@ -17,37 +17,51 @@ export default function Navbar() {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <Link class="nav-link active" aria-current="page" to="/">
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+              <li className="nav-item">
+                <Link className="nav-link active" aria-current="page" to="/">
                   Home
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/AboutUs">
+              <li className="nav-item">
+                <Link className="nav-link" to="/AboutUs">
                   About Us
                 </Link>
               </li>
-              <li class="nav-item">
-                <Link class="nav-link" to="/ContactUs">
+              <li className="nav-item">
+                <Link className="nav-link" to="/ContactUs">
                   Contact Us
                 </Link>
               </li>
             </ul>
-            {/* <form class="d-flex" role="search">
+            {/* <form className="d-flex" role="search">
               <input
-                class="form-control me-2"
+                className="form-control me-2"
                 type="search"
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button class="btn btn-outline-success" type="submit">
+              <button className="btn btn-outline-success" type="submit">
                 Search
               </button>
             </form> */}
+            <Link
+              className="btn btn-outline-success mx-1 my-1"
+              role="button"
+              to="/LogIn"
+            >
+              Log In
+            </Link>
+            <Link
+              className="btn btn-outline-success mx-1 my-1"
+              role="button"
+              to="/SignUp"
+            >
+              Sign Up
+            </Link>
           </div>
         </div>
       </nav>
