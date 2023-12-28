@@ -1,6 +1,11 @@
+import { bindActionCreators } from "@reduxjs/toolkit";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-export default function LogIn({ onLogin }) {
+import { actionCreators } from "./state/index";
+export default function LogIn() {
+  const dispatch = useDispatch();
+  const { logIn } = bindActionCreators(actionCreators, dispatch);
   let navigate = useNavigate();
 
   const [loginObj, setloginObj] = useState({
@@ -40,8 +45,8 @@ export default function LogIn({ onLogin }) {
     if (responseData.status) {
       localStorage.setItem("token", responseData.token);
       localStorage.setItem("profile", profile);
+      logIn(responseData.token);
       alert("successful login");
-      onLogin(); // Call the onLogin callback to update the login state in the parent component
       navigate("/MyProfile");
     } else {
       alert("wrond creadentials");

@@ -1,18 +1,24 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
-export default function Navbar({ isLoggedIn }) {
+import { bindActionCreators } from "@reduxjs/toolkit";
+import { useDispatch } from "react-redux";
+import { actionCreators } from "./state/index";
+export default function Navbar() {
+  const dispatch = useDispatch();
+  const { logOut } = bindActionCreators(actionCreators, dispatch);
+  const auth = useSelector((state) => state.auth);
   let navigate = useNavigate();
-
   const logOutHandler = () => {
     localStorage.removeItem("token");
     alert("log out successfull");
+    logOut(null);
     navigate("/logIn");
   };
   return (
     <div>
-      {isLoggedIn ? (
+      {!auth ? (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/">
@@ -81,7 +87,7 @@ export default function Navbar({ isLoggedIn }) {
       ) : (
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
           <div className="container-fluid">
-            <Link className="navbar-brand" to="MyProfile">
+            <Link className="navbar-brand" to="/MyProfile">
               Tution.com
             </Link>
             <button
