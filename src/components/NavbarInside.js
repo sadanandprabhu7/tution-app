@@ -1,6 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+
 import { Link } from "react-router-dom";
 export default function NavbarInside() {
+  let navigate = useNavigate();
+
+  const logOutHandler = () => {
+    localStorage.removeItem("token");
+    alert("log out successfull");
+    navigate("/logIn");
+  };
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -55,7 +64,8 @@ export default function NavbarInside() {
             <Link
               className="btn btn-outline-success mx-1 my-1"
               role="button"
-              to="/LogOut"
+              to="/"
+              onClick={logOutHandler}
             >
               Log Out
             </Link>

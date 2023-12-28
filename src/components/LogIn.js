@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-export default function LogIn() {
+export default function LogIn({ onLogin }) {
   let navigate = useNavigate();
 
   const [loginObj, setloginObj] = useState({
@@ -41,6 +41,7 @@ export default function LogIn() {
       localStorage.setItem("token", responseData.token);
       localStorage.setItem("profile", profile);
       alert("successful login");
+      onLogin(); // Call the onLogin callback to update the login state in the parent component
       navigate("/MyProfile");
     } else {
       alert("wrond creadentials");
