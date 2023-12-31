@@ -18,7 +18,7 @@ Router.route("/allstudents").get(studentsController.allStudents);
 
 Router.use(Authorization.teachersAuthentication);
 Router.route("/allTeachers").get(teachersController.allTeachers);
-Router.route("/updateTeachersAddress").post(
+Router.route("/teachers/update/address").post(
   teachersController.updateTeachersAddress
 );
 Router.route("/teachers/update/time").post(

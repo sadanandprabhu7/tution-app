@@ -44,9 +44,10 @@ class TeachersController {
         email: email,
       });
       if (findUser) {
-        return res
-          .status(404)
-          .json({ msg: "users exist use another email or mobile" });
+        return res.status(404).json({
+          status: false,
+          msg: "users exist use another email or mobile",
+        });
       } else {
         const hashPass = await CommanFunction.hashPassword(password);
         const user = new Teacher({
@@ -62,10 +63,10 @@ class TeachersController {
           // gender,
         });
         const data = await user.save();
-        res.status(200).json({ msg: "successful register" });
+        res.status(200).json({ status: true, msg: "successful register" });
       }
     } catch (error) {
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.status(500).json({ status: false, msg: "Internal Server Error" });
     }
   }
 
@@ -93,10 +94,11 @@ class TeachersController {
           status: true,
           message: "logged in sucessfully",
           token: await CommanFunction.token(findUser._id),
+          current_status: findUser.current_status,
         });
     } catch (err) {
       console.error("Error creating user:", err);
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ status: false, message: "Internal Server Error" });
     }
   }
   static async allTeachers(req, res) {
@@ -129,13 +131,16 @@ class TeachersController {
       // if (valid.length > 0) {
       //   return res.status(400).json({ msg: valid[0] });
       // }
-      console.log(req.body, "bofy+++++++++++");
+      // console.log(req.body, "body+++++++++++");
       const pin = parseInt(pinCode);
       const query = { pinCode: pin };
       const foundPin = await findPineCode(query);
-      console.log(foundPin, "foundPin++++++++++++++++++++++");
-      if (!foundPin)
-        return res.status(404).json({ msg: "enter valid pin code" });
+      // console.log(foundPin, "foundPin++++++++++++++++++++++");
+      if (foundPin.length === 0) {
+        return res
+          .status(404)
+          .json({ status: false, msg: "enter valid pin code" });
+      }
       req.body.area = foundPin[0].name;
       req.body.pin_code = foundPin[0].pinCode;
       req.body.state = foundPin[0].state;
@@ -145,13 +150,17 @@ class TeachersController {
         {
           $push: { address: req.body },
           $set: { "status.address_status": true },
-          $set: { current_status: 2 },
+          $set: { current_status: "25%" },
         }
       );
-      console.log(updatedAddress);
-      res.status(200).json({ msg: "address saved successfully" });
+      console.log(updatedAddress, "+++++++++++++++++++++++++++++++");
+      res.status(200).json({
+        status: true,
+        current_status: "25%",
+        msg: "address saved successfully",
+      });
     } catch (err) {
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.status(500).json({ status: false, msg: "Internal Server Error" });
     }
   }
 
@@ -162,49 +171,68 @@ class TeachersController {
       const updateTeachersTime = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
         {
-          $set: { times: req.body.time, current_status: 3 },
+          $set: { times: req.body.time, current_status: "75%" },
           // $set: { "status.time_status": true },
         }
       );
       console.log(updateTeachersTime);
-      res.status(200).json({ msg: "time saved successfully" });
+      res.status(200).json({
+        status: true,
+        current_status: "75%",
+        msg: "time saved successfully",
+      });
     } catch (err) {
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.status(500).json({ status: false, msg: "Internal Server Error" });
     }
   }
   static async updateTeachersClass(req, res) {
     try {
-      const valid = await CommanFunction.classVerify(req.body.class);
+      console.log(
+        req.body.checkedValues,
+        "req.body.checkedValues++++++++++++++++++"
+      );
+      const valid = await CommanFunction.classVerify(req.body.checkedValues);
       if (!valid) return res.status(400).json({ msg: "select valid class" });
       const updateTeachersClass = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
         {
-          $set: { classes: req.body.class, current_status: 5 },
+          $set: { classes: req.body.checkedValues, current_status: "50%" },
           // $set: { "status.class_status": true },
         }
       );
-      console.log(updateTeachersClass);
-      res.status(200).json({ msg: "class saved successfully" });
+      res.status(200).json({
+        status: true,
+        current_status: "50%",
+        msg: "class saved successfully",
+      });
     } catch (err) {
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.status(500).json({ status: false, msg: "Internal Server Error" });
     }
   }
 
   static async updateTeachersSubject(req, res) {
     try {
       const valid = await CommanFunction.subjectVerify(req.body.subject);
-      if (!valid) return res.status(400).json({ msg: "select valid subject" });
+      if (!valid) {
+        return res
+          .status(400)
+          .json({ status: false, msg: "select valid subject" });
+      }
       const updateTeachersSubject = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
         {
-          $set: { subjects: req.body.subject, current_status: 4 },
+          $set: { subjects: req.body.subject, current_status: "100%" },
           // $set: { "status.subject_status": true },
         }
       );
       console.log(updateTeachersSubject.subjects);
-      res.status(200).json({ msg: "subject saved successfully" });
+      res.status(200).json({
+        status: true,
+        current_status: "100%",
+        msg: "subject saved successfully",
+      });
     } catch (err) {
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.status(500).json({ status: false, msg: "Internal Server Error" });
     }
   }
   static async teachersStatus(req, res) {

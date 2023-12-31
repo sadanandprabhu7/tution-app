@@ -6,11 +6,12 @@ export const logIn = (token) => {
     });
   };
 };
-export const logOut = (token) => {
+
+export const status = (stateValue) => {
   return (dispatch) => {
     dispatch({
-      type: "logout",
-      payload: token,
+      type: "status",
+      payload: stateValue,
     });
   };
 };

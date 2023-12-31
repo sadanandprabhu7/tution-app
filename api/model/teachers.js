@@ -25,8 +25,9 @@ const addressSchema = new mongoose.Schema({
 
 const TeacherSchema = new mongoose.Schema({
   current_status: {
-    type: Number,
-    default: 1,
+    type: String,
+    default: "10%",
+    required: true,
   },
   status: {
     address_status: {

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { actionCreators } from "./state/index";
 export default function LogIn() {
   const dispatch = useDispatch();
-  const { logIn } = bindActionCreators(actionCreators, dispatch);
+  const { status } = bindActionCreators(actionCreators, dispatch);
   let navigate = useNavigate();
 
   const [loginObj, setloginObj] = useState({
@@ -45,7 +45,9 @@ export default function LogIn() {
     if (responseData.status) {
       localStorage.setItem("token", responseData.token);
       localStorage.setItem("profile", profile);
-      logIn(responseData.token);
+      localStorage.setItem("current_status", responseData.current_status);
+      // logIn(responseData.token);
+      status(responseData.current_status);
       alert("successful login");
       navigate("/MyProfile");
     } else {
@@ -54,9 +56,9 @@ export default function LogIn() {
     console.log("Post successful:", responseData);
   };
   return (
-    <div className="container">
+    <div className="container-sm">
       <form onSubmit={onSubmitHandler} className="form-control">
-        <div className="mb-3">
+        <div className="col-mb-6">
           <label htmlFor="email" className="form-label">
             Email address
           </label>

@@ -23,12 +23,10 @@ class StudentsController {
         email: email,
       });
       if (findUser) {
-        res
-          .status(404)
-          .json({
-            status: false,
-            msg: "users exist use another email or mobile",
-          });
+        res.status(404).json({
+          status: false,
+          msg: "users exist use another email or mobile",
+        });
         return;
       } else {
         const hashPass = await CommanFunction.hashPassword(password);
@@ -74,9 +72,10 @@ class StudentsController {
           status: true,
           message: "successfull login",
           token: await CommanFunction.token(findUser._id),
+          current_status: findUser.current_status,
         });
     } catch (err) {
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ status: false, error: "Internal Server Error" });
     }
   }
   static async allStudents(req, res) {

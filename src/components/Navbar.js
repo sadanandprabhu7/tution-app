@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -8,12 +8,11 @@ import { actionCreators } from "./state/index";
 export default function Navbar() {
   const dispatch = useDispatch();
   const { logOut } = bindActionCreators(actionCreators, dispatch);
-  const auth = useSelector((state) => state.auth);
+  const auth = localStorage.getItem("token");
   let navigate = useNavigate();
   const logOutHandler = () => {
     localStorage.removeItem("token");
     alert("log out successfull");
-    logOut(null);
     navigate("/logIn");
   };
   return (
