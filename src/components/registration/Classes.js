@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { actionCreators } from "../state/index";
 import { useDispatch } from "react-redux";
 
 const Classes = () => {
   const dispatch = useDispatch();
-
-  const { status } = bindActionCreators(actionCreators, dispatch);
 
   const [checkedValues, setCheckedValues] = useState([]);
   const handleCheckboxChange = (event) => {
@@ -39,7 +36,6 @@ const Classes = () => {
     console.log(responseData, "responseData++++++++++++++++");
 
     localStorage.setItem("current_status", responseData.current_status);
-    status(responseData.current_status);
   };
   return (
     <div className="container mt-3">

@@ -1,12 +1,9 @@
 import React, { useState } from "react";
 import { bindActionCreators } from "@reduxjs/toolkit";
-import { actionCreators } from "../state/index";
 import { useDispatch } from "react-redux";
 
 const Address = () => {
   const dispatch = useDispatch();
-
-  const { status } = bindActionCreators(actionCreators, dispatch);
 
   const [address, setaddress] = useState({
     landmark: "",
@@ -36,7 +33,6 @@ const Address = () => {
     });
 
     const responseData = await response.json();
-    status(responseData.current_status);
     localStorage.setItem("current_status", responseData.current_status);
     console.log(responseData, "address++++++++++++++++");
   };

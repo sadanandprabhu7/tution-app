@@ -1,18 +1,17 @@
-import { bindActionCreators } from "@reduxjs/toolkit";
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
-import { actionCreators } from "./state/index";
-export default function LogIn() {
-  const dispatch = useDispatch();
-  const { status } = bindActionCreators(actionCreators, dispatch);
+import { connect } from "react-redux";
+import { loginRequest } from "../Redux/Actions/LoginAction";
+import { isExpired, decodeToken } from "react-jwt";
+const LogIn = (props) => {
   let navigate = useNavigate();
-
   const [loginObj, setloginObj] = useState({
     email: "",
     password: "",
     profile: "",
   });
+  const [submissionSuccess, setSubmissionSuccess] = useState(props.userData);
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setloginObj((prevloginObj) => ({
@@ -20,40 +19,26 @@ export default function LogIn() {
       [name]: value,
     }));
   };
+  useEffect(() => {
+    if (props.userData !== false) {
+      if (props.userData && props.userData.status) {
+        localStorage.setItem("token", props.userData.token);
+        alert(props.userData.message);
+        navigate("/MyProfile");
+        // const myDecodedToken = decodeToken(props.userData.token);
+        // if (myDecodedToken !== undefined) {
+        // }
+      } else {
+        alert(props.userData.message);
+      }
+    }
+  }, [submissionSuccess, props]);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    let baseUrl = "http://localhost:3000";
-    console.log("Form submitted:", loginObj);
-    let profile = "";
     if (loginObj.profile === "teacher") {
-      profile = "t";
-      baseUrl = `${baseUrl}/teacher/login?email=${loginObj.email}&password=${loginObj.password}`;
+      props.loginRequest(loginObj);
     }
-    if (loginObj.profile === "student") {
-      profile = "s";
-      baseUrl = `${baseUrl}/student/login?email=${loginObj.email}&password=${loginObj.password}`;
-    }
-    const response = await fetch(baseUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    const responseData = await response.json();
-    if (responseData.status) {
-      localStorage.setItem("token", responseData.token);
-      localStorage.setItem("profile", profile);
-      localStorage.setItem("current_status", responseData.current_status);
-      // logIn(responseData.token);
-      status(responseData.current_status);
-      alert("successful login");
-      navigate("/MyProfile");
-    } else {
-      alert("wrond creadentials");
-    }
-    console.log("Post successful:", responseData);
   };
   return (
     <div className="container-sm">
@@ -125,4 +110,18 @@ export default function LogIn() {
       </form>
     </div>
   );
-}
+};
+LogIn.propTypes = {
+  loginRequest: PropTypes.func,
+  userData: PropTypes.object,
+  prop: PropTypes.any,
+  state: PropTypes.any,
+};
+
+const mapStateToProps = ({ app }) => ({
+  userData: app.userDetails,
+});
+
+export default connect(mapStateToProps, {
+  loginRequest,
+})(LogIn);

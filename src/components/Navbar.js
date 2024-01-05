@@ -4,10 +4,8 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-import { actionCreators } from "./state/index";
 export default function Navbar() {
   const dispatch = useDispatch();
-  const { logOut } = bindActionCreators(actionCreators, dispatch);
   const auth = localStorage.getItem("token");
   let navigate = useNavigate();
   const logOutHandler = () => {

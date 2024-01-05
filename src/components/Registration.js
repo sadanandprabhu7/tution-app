@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import Address from "./Registration/Address";
-import Classes from "./Registration/Classes";
-import Subjects from "./Registration/Subjects";
-import Times from "./Registration/Times";
+import Address from "./registration/Address";
+import Classes from "./registration/Classes";
+import Subjects from "./registration/Subjects";
+import Times from "./registration/Times";
 import { useSelector } from "react-redux";
 
 const Registration = () => {
