@@ -24,7 +24,7 @@ export const signUpRequest = (data) => (dispatch) => {
 };
 
 export const logout = () => ({
-  type: types.SET_LOUGOUT,
+  type: types.SET_LOGOUT,
 });
 
 export const signUpState = () => ({

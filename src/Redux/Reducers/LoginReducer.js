@@ -30,7 +30,7 @@ const app = (state = initialState.app, action) => {
       return { ...state, error: true };
     case types.SET_SIGNUP_STATE:
       return { ...state, signUp: null };
-    case types.SET_LOUGOUT:
+    case types.SET_LOGOUT:
       return { ...state, userDetails: false };
     default:
       return state;
