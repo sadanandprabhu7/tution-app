@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { loginRequest } from "../Redux/Actions/LoginAction";
-import { isExpired, decodeToken } from "react-jwt";
+// import { isExpired, decodeToken } from "react-jwt";
 const LogIn = (props) => {
   let navigate = useNavigate();
   const [loginObj, setloginObj] = useState({
@@ -11,7 +11,6 @@ const LogIn = (props) => {
     password: "",
     profile: "",
   });
-  const [submissionSuccess, setSubmissionSuccess] = useState(props.userData);
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
     setloginObj((prevloginObj) => ({
@@ -20,7 +19,7 @@ const LogIn = (props) => {
     }));
   };
   useEffect(() => {
-    if (props.userData !== false) {
+    if (props.userData) {
       if (props.userData && props.userData.status) {
         localStorage.setItem("token", props.userData.token);
         alert(props.userData.message);
@@ -32,7 +31,7 @@ const LogIn = (props) => {
         alert(props.userData.message);
       }
     }
-  }, [submissionSuccess, props]);
+  }, [props.userData]);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -113,7 +112,7 @@ const LogIn = (props) => {
 };
 LogIn.propTypes = {
   loginRequest: PropTypes.func,
-  userData: PropTypes.object,
+  userData: PropTypes.any,
   prop: PropTypes.any,
   state: PropTypes.any,
 };

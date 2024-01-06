@@ -46,7 +46,7 @@ class TeachersController {
       if (findUser) {
         return res.status(404).json({
           status: false,
-          msg: "users exist use another email or mobile",
+          message: "users exist use another email or mobile",
         });
       } else {
         const hashPass = await CommanFunction.hashPassword(password);
@@ -63,10 +63,10 @@ class TeachersController {
           // gender,
         });
         const data = await user.save();
-        res.status(200).json({ status: true, msg: "successful register" });
+        res.status(200).json({ status: true, message: "successful register" });
       }
     } catch (error) {
-      res.status(500).json({ status: false, msg: "Internal Server Error" });
+      res.status(500).json({ status: false, message: "Internal Server Error" });
     }
   }
 

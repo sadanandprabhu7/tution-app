@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
-export default function Navbar() {
-  const dispatch = useDispatch();
+import { logout } from "../Redux/Actions/LoginAction";
+const Navbar = (props) => {
   const auth = localStorage.getItem("token");
   let navigate = useNavigate();
   const logOutHandler = () => {
-    localStorage.removeItem("token");
+    props.logout();
+    localStorage.clear();
     alert("log out successfull");
     navigate("/logIn");
   };
@@ -148,4 +148,11 @@ export default function Navbar() {
       )}
     </div>
   );
-}
+};
+Navbar.propTypes = {
+  logout: PropTypes.func,
+};
+
+const mapStateToProps = ({ app }) => ({});
+
+export default connect(mapStateToProps, { logout })(Navbar);

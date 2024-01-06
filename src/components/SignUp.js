@@ -1,8 +1,11 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-export default function SignUp() {
-  let navigate = useNavigate();
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+// import { useNavigate } from "react-router-dom";
+import { signUpRequest, signUpState } from "../Redux/Actions/LoginAction";
 
+const SignUp = (props) => {
+  // let navigate = useNavigate();
   const [signUpObj, setsignUpObj] = useState({
     email: "",
     first_name: "",
@@ -18,31 +21,29 @@ export default function SignUp() {
       [name]: value,
     }));
   };
-
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    let baseUrl = "http://localhost:3000";
-    console.log("Form submitted:", signUpObj);
     if (signUpObj.profile === "teacher") {
-      baseUrl = `${baseUrl}/teacher/add`;
+      props.signUpRequest(signUpObj);
     }
     if (signUpObj.profile === "student") {
-      baseUrl = `${baseUrl}/student/add`;
     }
-    const response = await fetch(baseUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(signUpObj),
-    });
-
-    const responseData = await response.json();
-    if (responseData.status) {
-      navigate("/LogIn");
-    }
-    console.log("Post successful:", responseData);
   };
+
+  useEffect(() => {
+    if (props.signUpData) {
+      console.log(props.signUpData);
+      if (props.signUp && props.signUpData.status) {
+        alert(props.signUpData.message);
+        props.signUpState();
+        // navigate("/");
+      } else {
+        alert(props.signUpData.message);
+        props.signUpState();
+      }
+    }
+  }, [props.signUpData, props]);
+
   return (
     <div className="container">
       <form onSubmit={onSubmitHandler} className="form-control">
@@ -151,4 +152,19 @@ export default function SignUp() {
       </form>
     </div>
   );
-}
+};
+
+SignUp.propTypes = {
+  signUpRequest: PropTypes.func,
+  signUpData: PropTypes.any,
+  signUpState: PropTypes.func,
+};
+
+const mapStateToProps = ({ app }) => ({
+  signUpData: app.signUp,
+});
+
+export default connect(mapStateToProps, {
+  signUpState,
+  signUpRequest,
+})(SignUp);
