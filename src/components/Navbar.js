@@ -4,13 +4,19 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../Redux/Actions/LoginAction";
+
+import { useSnackbar } from "notistack";
+
 const Navbar = (props) => {
+  const { enqueueSnackbar } = useSnackbar();
   const auth = localStorage.getItem("token");
   let navigate = useNavigate();
   const logOutHandler = () => {
     props.logout();
     localStorage.clear();
-    alert("log out successfull");
+    enqueueSnackbar("log out successfull", {
+      variant: "success",
+    });
     navigate("/logIn");
   };
   return (

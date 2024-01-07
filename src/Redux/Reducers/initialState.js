@@ -8,7 +8,6 @@ export default {
     error: false,
     success: false,
     userDetails: null,
-    current_status: false,
     signUp: null,
     mydetails: false,
     subjects: false,

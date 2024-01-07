@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { updateTeachersSubject } from "../../Redux/Actions/LoginAction";
-
+import { updateTeachersSubject } from "../../api_operations/actions";
+import { useSnackbar } from "notistack";
+import { signUpState } from "../../Redux/Actions/LoginAction";
 const Subjects = (props) => {
+  const { enqueueSnackbar } = useSnackbar();
   const [checkedValues, setCheckedValues] = useState([]);
-  const [intialsubjects, setintialsubjects] = useState(props.subjects);
-
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     if (event.target.checked) {
@@ -20,28 +20,28 @@ const Subjects = (props) => {
     const obj = {
       subject: checkedValues,
     };
-    props.updateTeachersSubject(obj);
-  };
-  useEffect(() => {
-    // console.log(props.subjects, "props.subjects++++++++++++++++++++++");
-    if (props.subjects !== false) {
-      if (props.subjects && props.subjects.status) {
-        console.log(
-          props.subjects.message,
-          "props.subjects++++++++++++++++++++++"
-        );
-
-        // alert(props.subjects.message);
-      } else {
-        console.log(
-          props.subjects.message,
-          "props.subjects++++++++++++++++++++++"
-        );
-
-        // alert(props.subjects.message);
+    props.updateTeachersSubject(
+      obj,
+      (res) => {
+        if (res?.status === true) {
+          props.signUpState(res.current_status);
+          enqueueSnackbar(`${res.message}`, {
+            variant: "success",
+          });
+        } else {
+          enqueueSnackbar(`${res.message}`, {
+            variant: "error",
+          });
+        }
+      },
+      (err) => {
+        enqueueSnackbar(`${err.message}`, {
+          variant: "error",
+        });
       }
-    }
-  }, [intialsubjects]);
+    );
+  };
+
   return (
     <div className="container form-control mt-3">
       <form onSubmit={onSubmitHandler} className="form-control">
@@ -566,11 +566,13 @@ const Subjects = (props) => {
 
 Subjects.propTypes = {
   updateTeachersSubject: PropTypes.func,
-  subjects: PropTypes.any,
+  signUpState: PropTypes.func,
 };
 
 const mapStateToProps = ({ app }) => ({
-  subjects: app.subjects,
+  userData: app,
 });
 
-export default connect(mapStateToProps, { updateTeachersSubject })(Subjects);
+export default connect(mapStateToProps, { updateTeachersSubject, signUpState })(
+  Subjects
+);

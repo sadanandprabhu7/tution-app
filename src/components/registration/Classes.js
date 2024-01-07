@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { updateTeachersClass } from "../../Redux/Actions/LoginAction";
+import { updateTeachersClass } from "../../api_operations/actions";
+import { useSnackbar } from "notistack";
+import { signUpState } from "../../Redux/Actions/LoginAction";
 
 const Classes = (props) => {
+  const { enqueueSnackbar } = useSnackbar();
   const [checkedValues, setCheckedValues] = useState([]);
-  const [intialClasses, setintialClasses] = useState(props.classes);
-
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     if (event.target.checked) {
@@ -20,28 +21,28 @@ const Classes = (props) => {
     const obj = {
       checkedValues,
     };
-    props.updateTeachersClass(obj);
-  };
-  useEffect(() => {
-    // console.log(props.classes, "props.classes++++++++++++++++++++++");
-    if (props.classes !== false) {
-      // console.log(props.classes, "props.classes++++++++++++++++++++++");
-      if (props.classes && props.classes.status) {
-        console.log(
-          props.classes.message,
-          "props.classes.message++++++++++++++++++++++"
-        );
-
-        // alert(props.classes.message);
-      } else {
-        // alert(props.classes.message);
-        console.log(
-          props.classes.message,
-          "props.classes.message++++++++++++++++++++++"
-        );
+    props.updateTeachersClass(
+      obj,
+      (res) => {
+        if (res?.status === true) {
+          props.signUpState(res.current_status);
+          enqueueSnackbar(`${res.message}`, {
+            variant: "success",
+          });
+        } else {
+          enqueueSnackbar(`${res.message}`, {
+            variant: "error",
+          });
+        }
+      },
+      (err) => {
+        enqueueSnackbar(`${err.message}`, {
+          variant: "error",
+        });
       }
-    }
-  }, [intialClasses]);
+    );
+  };
+
   return (
     <div className="container mt-3">
       <form onSubmit={onSubmitHandler} className="form-control">
@@ -112,11 +113,13 @@ const Classes = (props) => {
 
 Classes.propTypes = {
   updateTeachersClass: PropTypes.func,
-  classes: PropTypes.any,
+  signUpState: PropTypes.func,
 };
 
 const mapStateToProps = ({ app }) => ({
-  classes: app.classes,
+  userData: app,
 });
 
-export default connect(mapStateToProps, { updateTeachersClass })(Classes);
+export default connect(mapStateToProps, { updateTeachersClass, signUpState })(
+  Classes
+);

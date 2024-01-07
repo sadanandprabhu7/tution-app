@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { updateTeachersAddress } from "../../Redux/Actions/LoginAction";
+import { updateTeachersAddress } from "../../api_operations/actions";
+import { signUpState } from "../../Redux/Actions/LoginAction";
+
+import { useSnackbar } from "notistack";
 const Address = (props) => {
+  const { enqueueSnackbar } = useSnackbar();
+
   const [address, setaddress] = useState({
     landmark: "",
     pinCode: "",
@@ -14,35 +19,31 @@ const Address = (props) => {
       [name]: value,
     }));
   };
-  console.log(props.mydetails, "props.mydetails+++++++++++++++++");
-
-  const [intialaddress, setintialaddress] = useState(props.mydetails.data);
-  console.log(intialaddress, "intialaddress.intialaddress+++++++++++++++++");
 
   const saveAddressHandler = async (e) => {
     e.preventDefault();
-    props.updateTeachersAddress(address);
-  };
-  useEffect(() => {
-    console.log(props.mydetails, "props.mydetails+++++++++++++++++");
-    if (props.mydetails !== false) {
-      if (props.mydetails && props.mydetails.status) {
-        console.log(
-          props.mydetails.message,
-          "props.mydetails.message++++++++++++++++++++++"
-        );
-
-        // alert(props.mydetails.message);
-      } else {
-        console.log(
-          props.mydetails.message,
-          "props.mydetails.message++++++++++++++++++++++"
-        );
-
-        // alert(props.mydetails.message);
+    props.updateTeachersAddress(
+      address,
+      (res) => {
+        if (res?.status === true) {
+          props.signUpState(res.current_status);
+          enqueueSnackbar(`${res.message}`, {
+            variant: "success",
+          });
+        } else {
+          enqueueSnackbar(`${res.message}`, {
+            variant: "error",
+          });
+        }
+      },
+      (err) => {
+        enqueueSnackbar(`${err.message}`, {
+          variant: "error",
+        });
       }
-    }
-  }, [intialaddress, props]);
+    );
+  };
+
   return (
     <div className="container form-control">
       <form onSubmit={saveAddressHandler} className="row g-3">
@@ -84,11 +85,14 @@ const Address = (props) => {
 
 Address.propTypes = {
   updateTeachersAddress: PropTypes.func,
-  mydetails: PropTypes.any,
+  signUpState: PropTypes.func,
 };
 
 const mapStateToProps = ({ app }) => ({
-  mydetails: app.mydetails,
+  userData: app,
 });
 
-export default connect(mapStateToProps, { updateTeachersAddress })(Address);
+export default connect(mapStateToProps, {
+  updateTeachersAddress,
+  signUpState,
+})(Address);

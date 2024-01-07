@@ -242,12 +242,13 @@ class TeachersController {
     try {
       const found = await Teacher.findById(req.user._id);
       res.status(200).json({
-        data: found,
+        status: true,
+        // data: found,
         info: found.current_status,
-        message: "successfully",
+        message: "current status",
       });
     } catch (err) {
-      res.status(500).json({ message: "Internal Server Error" });
+      res.status(500).json({ status: false, message: "Internal Server Error" });
     }
   }
   static async teachersDashboard(req, res) {

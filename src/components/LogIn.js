@@ -1,10 +1,13 @@
+// eslint-disable-next-line
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginRequest } from "../Redux/Actions/LoginAction";
+import { useSnackbar } from "notistack";
 // import { isExpired, decodeToken } from "react-jwt";
 const LogIn = (props) => {
+  const { enqueueSnackbar } = useSnackbar();
   let navigate = useNavigate();
   const [loginObj, setloginObj] = useState({
     email: "",
@@ -24,10 +27,14 @@ const LogIn = (props) => {
         localStorage.clear();
         localStorage.setItem("token", props.userData.token);
         localStorage.setItem("current_status", props.userData.current_status);
-        alert(props.userData.message);
+        enqueueSnackbar(`${props.userData.message}`, {
+          variant: "success",
+        });
         navigate("/MyProfile");
       } else {
-        alert(props.userData.message);
+        enqueueSnackbar(`${props.userData.message}`, {
+          variant: "error",
+        });
       }
     }
   }, [props.userData]);
@@ -112,8 +119,6 @@ const LogIn = (props) => {
 LogIn.propTypes = {
   loginRequest: PropTypes.func,
   userData: PropTypes.any,
-  prop: PropTypes.any,
-  state: PropTypes.any,
 };
 
 const mapStateToProps = ({ app }) => ({

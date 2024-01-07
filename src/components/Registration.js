@@ -6,11 +6,8 @@ import Subjects from "./registration/Subjects";
 import Times from "./registration/Times";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import AddressTest from "./registration/AddressTest";
-import { updateTeachersAddress } from "../Redux/Actions/LoginAction";
-
 const Registration = (props) => {
-  console.log(props, "props resistratio +++++++++++++++++++++");
+  console.log(props.current_status, "current_status +++++++++++++++++++++");
   return (
     <div className="container mt-3 my-2  form-control ">
       <h3>{"heading"}</h3>
@@ -52,13 +49,10 @@ const Registration = (props) => {
 Registration.propTypes = {
   userData: PropTypes.any,
   current_status: PropTypes.any,
-  // updateTeachersAddress: PropTypes.func,
-  // mydetails: PropTypes.any,
 };
 const mapStateToProps = ({ app }) => ({
   userData: app,
   current_status: app.current_status,
-  // mydetails: app.mydetails,
 });
 
 export default connect(mapStateToProps, {})(Registration);

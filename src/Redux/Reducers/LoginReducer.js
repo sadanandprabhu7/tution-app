@@ -29,8 +29,8 @@ const app = (state = initialState.app, action) => {
     //   };
     // case types.SET_TEACHER_SIGN_UP_ERROR:
     //   return { ...state, error: true };
-    // case types.SET_SIGNUP_STATE:
-    //   return { ...state, signUp: null };
+    case types.SET_SIGNUP_STATE:
+      return { ...state, current_status: action.data };
     case types.SET_LOGOUT:
       return { ...state, userDetails: false };
 
@@ -73,18 +73,17 @@ const app = (state = initialState.app, action) => {
     // case types.SET_TEACHER_SUBJECTS_ERROR:
     //   return { ...state, error: true };
 
-    // case types.TEACHER_TIMES_API:
-    //   return { ...state, loading: true, times: false };
-    // case types.SET_TEACHER_TIMES:
-    //   return {
-    //     ...state,
-    //     success: true,
-    //     loading: false,
-    //     times: action.data,
-    //     current_status: action.data.current_status,
-    //   };
-    // case types.SET_TEACHER_TIMES_ERROR:
-    //   return { ...state, error: true };
+    case types.TEACHER_STATUS_API:
+      return { ...state, loading: true, current_status: false };
+    case types.SET_TEACHER_STATUS:
+      return {
+        ...state,
+        success: true,
+        loading: false,
+        current_status: action.data.current_status,
+      };
+    case types.SET_TEACHER_STATUS_ERROR:
+      return { ...state, error: true };
 
     default:
       return state;
