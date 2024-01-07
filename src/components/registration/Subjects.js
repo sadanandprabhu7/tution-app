@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { updateTeachersSubject } from "../../Redux/Actions/LoginAction";
 
-const Subjects = () => {
-  const dispatch = useDispatch();
-
+const Subjects = (props) => {
   const [checkedValues, setCheckedValues] = useState([]);
+  const [intialsubjects, setintialsubjects] = useState(props.subjects);
+
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     if (event.target.checked) {
@@ -19,24 +20,28 @@ const Subjects = () => {
     const obj = {
       subject: checkedValues,
     };
-    console.log(checkedValues, "checkedValues+++++++++++++++++");
-    const token = localStorage.getItem("token");
-    let baseUrl = "http://localhost:3000";
-    baseUrl = `${baseUrl}/teachers/update/subject`;
-    const response = await fetch(baseUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      body: JSON.stringify(obj),
-    });
-
-    const responseData = await response.json();
-    console.log(responseData, "responseData++++++++++++++++");
-
-    localStorage.setItem("current_status", responseData.current_status);
+    props.updateTeachersSubject(obj);
   };
+  useEffect(() => {
+    // console.log(props.subjects, "props.subjects++++++++++++++++++++++");
+    if (props.subjects !== false) {
+      if (props.subjects && props.subjects.status) {
+        console.log(
+          props.subjects.message,
+          "props.subjects++++++++++++++++++++++"
+        );
+
+        // alert(props.subjects.message);
+      } else {
+        console.log(
+          props.subjects.message,
+          "props.subjects++++++++++++++++++++++"
+        );
+
+        // alert(props.subjects.message);
+      }
+    }
+  }, [intialsubjects]);
   return (
     <div className="container form-control mt-3">
       <form onSubmit={onSubmitHandler} className="form-control">
@@ -559,4 +564,13 @@ const Subjects = () => {
   );
 };
 
-export default Subjects;
+Subjects.propTypes = {
+  updateTeachersSubject: PropTypes.func,
+  subjects: PropTypes.any,
+};
+
+const mapStateToProps = ({ app }) => ({
+  subjects: app.subjects,
+});
+
+export default connect(mapStateToProps, { updateTeachersSubject })(Subjects);

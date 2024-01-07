@@ -35,12 +35,15 @@ export const post = async ({
     if (auth && payment === undefined) {
       customHeaders.authorization = auth;
     }
+    console.log(url, "url+++++++++++++++++++++++++++++++");
     const res = await fetch(url, {
       method: "POST",
       headers: customHeaders,
       body: mainBody,
     });
     data = await res.json();
+    console.log(data, "data response+++++++++++++++++++++++++++++++");
+
     checkHTTPStatus(res.status);
     dispatch({ type: success, data });
   } catch (e) {

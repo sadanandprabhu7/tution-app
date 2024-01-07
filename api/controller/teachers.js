@@ -32,7 +32,7 @@ class TeachersController {
         confirmPassword;
       // );
       // if (errors.length > 0) {
-      //   return res.status(400).json({ msg: errors });
+      //   return res.status(400).json({ message: errors });
       // }
 
       // const findUser = await Teacher.findOne({
@@ -63,7 +63,9 @@ class TeachersController {
           // gender,
         });
         const data = await user.save();
-        res.status(200).json({ status: true, message: "successful register" });
+        res
+          .status(200)
+          .json({ status: true, message: "teacher successful register" });
       }
     } catch (error) {
       res.status(500).json({ status: false, message: "Internal Server Error" });
@@ -78,7 +80,7 @@ class TeachersController {
         return res
           .status(404)
           .json({ status: false, message: "wrong credentials email/password" });
-        // return res.status(400).json({ msg: "user not found" });
+        // return res.status(400).json({ message: "user not found" });
       }
       const findPass = await CommanFunction.comaprePassword(
         password,
@@ -88,7 +90,7 @@ class TeachersController {
         return res
           .status(404)
           .json({ status: false, message: "wrong credentials email/password" });
-        // return res.status(400).json({ msg: "wrong password" });
+        // return res.status(400).json({ message: "wrong password" });
       } else
         res.status(200).json({
           status: true,
@@ -107,7 +109,7 @@ class TeachersController {
       res.status(200).json(allTeachers);
     } catch (error) {
       console.error("Error getting users:", error);
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
   static async updateTeachersAddress(req, res) {
@@ -129,7 +131,7 @@ class TeachersController {
       //   alternate_pin_code
       // );
       // if (valid.length > 0) {
-      //   return res.status(400).json({ msg: valid[0] });
+      //   return res.status(400).json({ message: valid[0] });
       // }
       // console.log(req.body, "body+++++++++++");
       const pin = parseInt(pinCode);
@@ -139,7 +141,7 @@ class TeachersController {
       if (foundPin.length === 0) {
         return res
           .status(404)
-          .json({ status: false, msg: "enter valid pin code" });
+          .json({ status: false, message: "enter valid pin code" });
       }
       req.body.area = foundPin[0].name;
       req.body.pin_code = foundPin[0].pinCode;
@@ -157,17 +159,17 @@ class TeachersController {
       res.status(200).json({
         status: true,
         current_status: "25%",
-        msg: "address saved successfully",
+        message: "address saved successfully",
       });
     } catch (err) {
-      res.status(500).json({ status: false, msg: "Internal Server Error" });
+      res.status(500).json({ status: false, message: "Internal Server Error" });
     }
   }
 
   static async updateTeachersTime(req, res) {
     try {
       const valid = await CommanFunction.timeVerify(req.body.time);
-      if (!valid) return res.status(400).json({ msg: "select valid time" });
+      if (!valid) return res.status(400).json({ message: "select valid time" });
       const updateTeachersTime = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
         {
@@ -179,10 +181,10 @@ class TeachersController {
       res.status(200).json({
         status: true,
         current_status: "75%",
-        msg: "time saved successfully",
+        message: "time saved successfully",
       });
     } catch (err) {
-      res.status(500).json({ status: false, msg: "Internal Server Error" });
+      res.status(500).json({ status: false, message: "Internal Server Error" });
     }
   }
   static async updateTeachersClass(req, res) {
@@ -192,7 +194,8 @@ class TeachersController {
         "req.body.checkedValues++++++++++++++++++"
       );
       const valid = await CommanFunction.classVerify(req.body.checkedValues);
-      if (!valid) return res.status(400).json({ msg: "select valid class" });
+      if (!valid)
+        return res.status(400).json({ message: "select valid class" });
       const updateTeachersClass = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
         {
@@ -203,10 +206,10 @@ class TeachersController {
       res.status(200).json({
         status: true,
         current_status: "50%",
-        msg: "class saved successfully",
+        message: "class saved successfully",
       });
     } catch (err) {
-      res.status(500).json({ status: false, msg: "Internal Server Error" });
+      res.status(500).json({ status: false, message: "Internal Server Error" });
     }
   }
 
@@ -216,7 +219,7 @@ class TeachersController {
       if (!valid) {
         return res
           .status(400)
-          .json({ status: false, msg: "select valid subject" });
+          .json({ status: false, message: "select valid subject" });
       }
       const updateTeachersSubject = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
@@ -229,20 +232,22 @@ class TeachersController {
       res.status(200).json({
         status: true,
         current_status: "100%",
-        msg: "subject saved successfully",
+        message: "subject saved successfully",
       });
     } catch (err) {
-      res.status(500).json({ status: false, msg: "Internal Server Error" });
+      res.status(500).json({ status: false, message: "Internal Server Error" });
     }
   }
   static async teachersStatus(req, res) {
     try {
       const found = await Teacher.findById(req.user._id);
-      res
-        .status(200)
-        .json({ data: found, info: found.current_status, msg: "successfully" });
+      res.status(200).json({
+        data: found,
+        info: found.current_status,
+        message: "successfully",
+      });
     } catch (err) {
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
   static async teachersDashboard(req, res) {
@@ -280,11 +285,11 @@ class TeachersController {
       //   classes: found[0].lastClass,
       // };
 
-      //res.status(200).json({ data: responseData, msg: "successfully" });
+      //res.status(200).json({ data: responseData, message: "successfully" });
 
-      res.status(200).json({ data: found, msg: "successfully" });
+      res.status(200).json({ data: found, message: "successfully" });
     } catch (err) {
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
   static async teachersStatusChange(req, res) {
@@ -297,9 +302,9 @@ class TeachersController {
         query,
         { new: true }
       );
-      res.status(200).json({ msg: "successfully" });
+      res.status(200).json({ message: "successfully" });
     } catch (err) {
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.status(500).json({ message: "Internal Server Error" });
     }
   }
 }

@@ -25,7 +25,7 @@ class StudentsController {
       if (findUser) {
         res.status(404).json({
           status: false,
-          msg: "users exist use another email or mobile",
+          message: "users exist use another email or mobile",
         });
         return;
       } else {
@@ -43,10 +43,12 @@ class StudentsController {
           // gender,
         });
         const data = await user.save();
-        res.status(200).json({ status: true, msg: "sucessfuly resgistered" });
+        res
+          .status(200)
+          .json({ status: true, message: "student sucessfuly resgistered" });
       }
     } catch (error) {
-      res.status(500).json({ status: false, msg: "Internal Server Error" });
+      res.status(500).json({ status: false, message: "Internal Server Error" });
     }
   }
 

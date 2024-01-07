@@ -21,12 +21,11 @@ const LogIn = (props) => {
   useEffect(() => {
     if (props.userData) {
       if (props.userData && props.userData.status) {
+        localStorage.clear();
         localStorage.setItem("token", props.userData.token);
+        localStorage.setItem("current_status", props.userData.current_status);
         alert(props.userData.message);
         navigate("/MyProfile");
-        // const myDecodedToken = decodeToken(props.userData.token);
-        // if (myDecodedToken !== undefined) {
-        // }
       } else {
         alert(props.userData.message);
       }

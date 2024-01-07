@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { updateTeachersClass } from "../../Redux/Actions/LoginAction";
 
-const Classes = () => {
-  const dispatch = useDispatch();
-
+const Classes = (props) => {
   const [checkedValues, setCheckedValues] = useState([]);
+  const [intialClasses, setintialClasses] = useState(props.classes);
+
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     if (event.target.checked) {
@@ -19,24 +20,28 @@ const Classes = () => {
     const obj = {
       checkedValues,
     };
-    console.log(checkedValues, "checkedValues+++++++++++++++++");
-    const token = localStorage.getItem("token");
-    let baseUrl = "http://localhost:3000";
-    baseUrl = `${baseUrl}/teachers/update/class`;
-    const response = await fetch(baseUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      body: JSON.stringify(obj),
-    });
-
-    const responseData = await response.json();
-    console.log(responseData, "responseData++++++++++++++++");
-
-    localStorage.setItem("current_status", responseData.current_status);
+    props.updateTeachersClass(obj);
   };
+  useEffect(() => {
+    // console.log(props.classes, "props.classes++++++++++++++++++++++");
+    if (props.classes !== false) {
+      // console.log(props.classes, "props.classes++++++++++++++++++++++");
+      if (props.classes && props.classes.status) {
+        console.log(
+          props.classes.message,
+          "props.classes.message++++++++++++++++++++++"
+        );
+
+        // alert(props.classes.message);
+      } else {
+        // alert(props.classes.message);
+        console.log(
+          props.classes.message,
+          "props.classes.message++++++++++++++++++++++"
+        );
+      }
+    }
+  }, [intialClasses]);
   return (
     <div className="container mt-3">
       <form onSubmit={onSubmitHandler} className="form-control">
@@ -105,4 +110,13 @@ const Classes = () => {
   );
 };
 
-export default Classes;
+Classes.propTypes = {
+  updateTeachersClass: PropTypes.func,
+  classes: PropTypes.any,
+};
+
+const mapStateToProps = ({ app }) => ({
+  classes: app.classes,
+});
+
+export default connect(mapStateToProps, { updateTeachersClass })(Classes);

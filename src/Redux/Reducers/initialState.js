@@ -8,7 +8,13 @@ export default {
     error: false,
     success: false,
     userDetails: null,
+    current_status: false,
     signUp: null,
+    mydetails: false,
+    subjects: false,
+    times: false,
+    classes: false,
+    current_status: false,
     portalConfig: false,
   },
 };

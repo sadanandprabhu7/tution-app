@@ -3,9 +3,10 @@ import { combineReducers } from "redux";
 // import * as types from "../Actions/ActionTypes";
 // import initialState from "./initialState";
 import app from "./LoginReducer";
+// import teacher from "./TeacherReducer";
 
 const appReducer = combineReducers({
-  app: app,
+  app,
 });
 
 const rootReducer = (state, action) => {

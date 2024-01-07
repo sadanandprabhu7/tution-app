@@ -1,11 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-import { signUpRequest, signUpState } from "../Redux/Actions/LoginAction";
-
+import { useNavigate } from "react-router-dom";
+import { useSnackbar } from "notistack";
+import {
+  teacherSignUpCall,
+  studentSignUpCall,
+} from "../api_operations/actions";
 const SignUp = (props) => {
-  // let navigate = useNavigate();
+  const { teacherSignUpCall, studentSignUpCall } = props;
+  const { enqueueSnackbar } = useSnackbar();
+  let navigate = useNavigate();
   const [signUpObj, setsignUpObj] = useState({
     email: "",
     first_name: "",
@@ -23,26 +28,29 @@ const SignUp = (props) => {
   };
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (signUpObj.profile === "teacher") {
-      props.signUpRequest(signUpObj);
-    }
-    if (signUpObj.profile === "student") {
-    }
-  };
-
-  useEffect(() => {
-    if (props.signUpData) {
-      console.log(props.signUpData);
-      if (props.signUp && props.signUpData.status) {
-        alert(props.signUpData.message);
-        props.signUpState();
-        // navigate("/");
-      } else {
-        alert(props.signUpData.message);
-        props.signUpState();
+    const signUpCall =
+      signUpObj.profile === "teacher" ? teacherSignUpCall : studentSignUpCall;
+    signUpCall(
+      signUpObj,
+      (res) => {
+        if (res?.status === true) {
+          enqueueSnackbar(`${res.message}`, {
+            variant: "success",
+          });
+          navigate("/LogIn");
+        } else {
+          enqueueSnackbar(`${res.message}`, {
+            variant: "error",
+          });
+        }
+      },
+      (err) => {
+        enqueueSnackbar(`${err.message}`, {
+          variant: "error",
+        });
       }
-    }
-  }, [props.signUpData, props]);
+    );
+  };
 
   return (
     <div className="container">
@@ -155,16 +163,15 @@ const SignUp = (props) => {
 };
 
 SignUp.propTypes = {
-  signUpRequest: PropTypes.func,
-  signUpData: PropTypes.any,
-  signUpState: PropTypes.func,
+  teacherSignUpCall: PropTypes.func,
+  studentSignUpCall: PropTypes.func,
 };
 
 const mapStateToProps = ({ app }) => ({
-  signUpData: app.signUp,
+  userData: app,
 });
 
 export default connect(mapStateToProps, {
-  signUpState,
-  signUpRequest,
+  teacherSignUpCall,
+  studentSignUpCall,
 })(SignUp);

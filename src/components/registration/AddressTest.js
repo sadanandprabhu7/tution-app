@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { updateTeachersAddress } from "../../Redux/Actions/LoginAction";
-const Address = (props) => {
+const AddressTest = (props) => {
+  const { setAddrees, add } = props;
+  console.log(add, "props.addresstest.message++++++++++++++++++++++");
+
   const [address, setaddress] = useState({
     landmark: "",
     pinCode: "",
@@ -14,35 +16,28 @@ const Address = (props) => {
       [name]: value,
     }));
   };
-  console.log(props.mydetails, "props.mydetails+++++++++++++++++");
-
-  const [intialaddress, setintialaddress] = useState(props.mydetails.data);
-  console.log(intialaddress, "intialaddress.intialaddress+++++++++++++++++");
-
+  // const [intialaddress, setintialaddress] = useState(add);
   const saveAddressHandler = async (e) => {
     e.preventDefault();
-    props.updateTeachersAddress(address);
+    setAddrees(address);
   };
   useEffect(() => {
-    console.log(props.mydetails, "props.mydetails+++++++++++++++++");
-    if (props.mydetails !== false) {
-      if (props.mydetails && props.mydetails.status) {
-        console.log(
-          props.mydetails.message,
-          "props.mydetails.message++++++++++++++++++++++"
-        );
+    console.log("props.address1+++++++++++++++++");
+    if (add != false) {
+      console.log(add, "props.address2+++++++++++++++++");
 
-        // alert(props.mydetails.message);
+      if (add && add.status) {
+        // console.log(add.message, "add.message++++++++++++++++++++++");
+        console.log(add, "props.address3+++++++++++++++++");
+
+        alert(add.message);
       } else {
-        console.log(
-          props.mydetails.message,
-          "props.mydetails.message++++++++++++++++++++++"
-        );
+        // console.log(add.message, "add.message++++++++++++++++++++++");
 
-        // alert(props.mydetails.message);
+        alert(add.message);
       }
     }
-  }, [intialaddress, props]);
+  }, [add, props]);
   return (
     <div className="container form-control">
       <form onSubmit={saveAddressHandler} className="row g-3">
@@ -82,13 +77,14 @@ const Address = (props) => {
   );
 };
 
-Address.propTypes = {
-  updateTeachersAddress: PropTypes.func,
-  mydetails: PropTypes.any,
-};
+// AddressTest.propTypes = {
+//   updateTeachersAddress: PropTypes.func,
+//   address: PropTypes.any,
+// };
 
-const mapStateToProps = ({ app }) => ({
-  mydetails: app.mydetails,
-});
+// const mapStateToProps = ({ app }) => ({
+//   address: app.address,
+// });
 
-export default connect(mapStateToProps, { updateTeachersAddress })(Address);
+// export default connect(mapStateToProps, {})(AddressTest);
+export default AddressTest;

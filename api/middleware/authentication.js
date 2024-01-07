@@ -17,13 +17,14 @@ class Authorization {
       const token = req.headers.authorization
         ? req.headers.authorization
         : null;
-      if (!token) return res.status(403).json({ msg: "please login again" });
+      if (!token)
+        return res.status(403).json({ message: "please login again" });
       const key = process.env.SECRETE_KEY_JWT;
       const verified = await Authorization.verifyToken(token, key);
       if (verified === "invalid token")
         return res
           .status(403)
-          .json({ status: false, msg: "Authentication failed" });
+          .json({ status: false, message: "Authentication failed" });
       const { id } = verified;
       if (id) {
         const teacher = await Teacher.findById(id);
@@ -31,7 +32,7 @@ class Authorization {
         next();
       }
     } catch (err) {
-      res.status(500).json({ msg: "server error" });
+      res.status(500).json({ message: "server error" });
     }
   }
   static async studentsAuthentication(req, res, next) {
@@ -39,13 +40,14 @@ class Authorization {
       const token = req.headers.authorization
         ? req.headers.authorization
         : null;
-      if (!token) return res.status(403).json({ msg: "please login again" });
+      if (!token)
+        return res.status(403).json({ message: "please login again" });
       const key = process.env.SECRETE_KEY_JWT;
       const verified = await Authorization.verifyToken(token, key);
       if (verified === "invalid token")
         return res
           .status(403)
-          .json({ status: false, msg: "Authentication failed" });
+          .json({ status: false, message: "Authentication failed" });
       const { id } = verified;
       if (id) {
         const teacher = await Student.findById(id);
@@ -53,7 +55,7 @@ class Authorization {
         next();
       }
     } catch (err) {
-      res.status(500).json({ msg: "server error" });
+      res.status(500).json({ message: "server error" });
     }
   }
 }

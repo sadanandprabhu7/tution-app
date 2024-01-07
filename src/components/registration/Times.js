@@ -1,9 +1,13 @@
-import React, { useState } from "react";
-import { bindActionCreators } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
-const Times = () => {
-  const dispatch = useDispatch();
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { updateTeachersTime } from "../../Redux/Actions/LoginAction";
+
+const Times = (props) => {
   const [checkedValues, setCheckedValues] = useState([]);
+  const [intialtimes, setintialtimes] = useState(props.times);
+  console.log(props.times, "props.times++++++++++++++++++++++");
+  console.log("inside times+++++++++++++++++");
   const handleCheckboxChange = (event) => {
     const value = event.target.value;
     if (event.target.checked) {
@@ -17,24 +21,28 @@ const Times = () => {
     const obj = {
       time: checkedValues,
     };
-    console.log(checkedValues, "checkedValues+++++++++++++++++");
-    const token = localStorage.getItem("token");
-    let baseUrl = "http://localhost:3000";
-    baseUrl = `${baseUrl}/teachers/update/time`;
-    const response = await fetch(baseUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      body: JSON.stringify(obj),
-    });
-
-    const responseData = await response.json();
-    console.log(responseData, "responseData++++++++++++++++");
-
-    localStorage.setItem("current_status", responseData.current_status);
+    props.updateTeachersTime(obj);
   };
+  useEffect(() => {
+    // console.log(props.times, "props.times++++++++++++++++++++++");
+    if (props.times !== false) {
+      // console.log(props.times, "props.times++++++++++++++++++++++");
+      if (props.times && props.times.status) {
+        console.log(
+          props.times.message,
+          "props.subjects++++++++++++++++++++++"
+        );
+
+        // alert(props.times.message);
+      } else {
+        // alert(props.times.message);
+        console.log(
+          props.times.message,
+          "props.subjects++++++++++++++++++++++"
+        );
+      }
+    }
+  }, [props.times]);
   return (
     <div className="container mt-3">
       <form onSubmit={onSubmitHandler} className="form-control">
@@ -142,4 +150,13 @@ const Times = () => {
   );
 };
 
-export default Times;
+Times.propTypes = {
+  updateTeachersTime: PropTypes.func,
+  times: PropTypes.any,
+};
+
+const mapStateToProps = ({ app }) => ({
+  times: app.times,
+});
+
+export default connect(mapStateToProps, { updateTeachersTime })(Times);
