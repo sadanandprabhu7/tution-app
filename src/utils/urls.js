@@ -13,3 +13,5 @@ export const TEACHER_CLASSES = `${url}/teachers/update/class`;
 export const TEACHER_SUBJECTS = `${url}/teachers/update/subject`;
 
 export const TEACHER_STATUS = `${url}/teachers/status`;
+export const USER_PROFILE = `${url}/user/profile`;
+export const USER_ENTITIES = `${url}/user/entities`;

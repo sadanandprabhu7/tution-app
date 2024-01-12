@@ -14,6 +14,8 @@ export default {
     times: false,
     classes: false,
     current_status: false,
+    entities: false,
+    profile: false,
     portalConfig: false,
   },
 };

@@ -110,10 +110,10 @@ export const get = async ({ url, success, failure, dispatch, body }) => {
       method: "get",
       headers: customHeaders,
     });
-    // console.log(res, "res++++++++++++++++++++++++");
+    console.log(res, "res++++++++++++++++++++++++");
 
     data = await res.json();
-    // console.log(data, "res++++++++++++++++++++++++");
+    console.log(data, "res++++++++++++++++++++++++");
 
     // data.initialCall = true;
     checkHTTPStatus(res.status);

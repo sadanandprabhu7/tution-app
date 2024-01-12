@@ -1,25 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { updateTeachersClass } from "../../api_operations/actions";
 import { useSnackbar } from "notistack";
-import { signUpState } from "../../Redux/Actions/LoginAction";
+import { signUpState, getEntities } from "../../Redux/Actions/LoginAction";
 
 const Classes = (props) => {
+  useEffect(() => {
+    if (props.entities === false) {
+      props.getEntities();
+    }
+  }, [props.entities]);
   const { enqueueSnackbar } = useSnackbar();
-  const [checkedValues, setCheckedValues] = useState([]);
-  const handleCheckboxChange = (event) => {
-    const value = event.target.value;
-    if (event.target.checked) {
-      setCheckedValues([...checkedValues, value]);
+  const [selectedclasses, setSelectedclasses] = useState([]);
+
+  const handleCheckboxChanges = (key, name) => {
+    const isclasseselected = selectedclasses.some(
+      (subject) => subject.key === key
+    );
+
+    if (isclasseselected) {
+      const updatedclasses = selectedclasses.filter(
+        (subject) => subject.key !== key
+      );
+      setSelectedclasses(updatedclasses);
     } else {
-      setCheckedValues(checkedValues.filter((item) => item !== value));
+      setSelectedclasses((prevSelectedclasses) => [
+        ...prevSelectedclasses,
+        { key, name },
+      ]);
     }
   };
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     const obj = {
-      checkedValues,
+      classes: selectedclasses,
     };
     props.updateTeachersClass(
       obj,
@@ -46,61 +61,28 @@ const Classes = (props) => {
   return (
     <div className="container mt-3">
       <form onSubmit={onSubmitHandler} className="form-control">
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            value="1 to 5"
-            id="1 to 5"
-            checked={checkedValues.includes("1 to 5")}
-            onChange={handleCheckboxChange}
-          />
-          <label className="form-check-label" htmlFor="1 to 5">
-            1 to 5
-          </label>
-        </div>
+        <h3>Classe Selection</h3>
+        {props.entities.classes &&
+          props.entities.classes[0].classes.map((classesObj) => (
+            <div className="form-check" key={classesObj.key}>
+              <input
+                className="form-check-input"
+                type="checkbox"
+                id={`classesObj-${classesObj.key}`}
+                checked={selectedclasses.some((c) => c.key === classesObj.key)}
+                onChange={() =>
+                  handleCheckboxChanges(classesObj.key, classesObj.name)
+                }
+              />
+              <label
+                className="form-check-label"
+                htmlFor={`classesObj-${classesObj.key}`}
+              >
+                {classesObj.name}
+              </label>
+            </div>
+          ))}
 
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            value="5 to 8"
-            id="5 to 8"
-            checked={checkedValues.includes("5 to 8")}
-            onChange={handleCheckboxChange}
-          />
-          <label className="form-check-label" htmlFor="5 to 8">
-            5 to 8
-          </label>
-        </div>
-
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            value="9 to 10"
-            id="9 to 10"
-            checked={checkedValues.includes("9 to 10")}
-            onChange={handleCheckboxChange}
-          />
-          <label className="form-check-label" htmlFor="9 to 10">
-            9 to 10
-          </label>
-        </div>
-
-        <div className="form-check">
-          <input
-            className="form-check-input"
-            type="checkbox"
-            value="10 to 12"
-            id="10 to 12"
-            checked={checkedValues.includes("10 to 12")}
-            onChange={handleCheckboxChange}
-          />
-          <label className="form-check-label" htmlFor="10 to 12">
-            10 to 12
-          </label>
-        </div>
         <div>
           <button type="submit" className="btn btn-success mx-2 my-3">
             Submit
@@ -114,12 +96,16 @@ const Classes = (props) => {
 Classes.propTypes = {
   updateTeachersClass: PropTypes.func,
   signUpState: PropTypes.func,
+  entities: PropTypes.any,
+  getEntities: PropTypes.func,
 };
 
 const mapStateToProps = ({ app }) => ({
-  userData: app,
+  entities: app.entities,
 });
 
-export default connect(mapStateToProps, { updateTeachersClass, signUpState })(
-  Classes
-);
+export default connect(mapStateToProps, {
+  updateTeachersClass,
+  signUpState,
+  getEntities,
+})(Classes);

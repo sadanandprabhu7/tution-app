@@ -3,6 +3,7 @@ const Router = express.Router();
 const Authorization = require("../middleware/authentication");
 const studentsController = require("../controller/students");
 const teachersController = require("../controller/teachers");
+const users = require("../controller/users");
 Router.route("/").get((req, res) => {
   res.send("test api");
 });
@@ -31,7 +32,9 @@ Router.route("/teachers/update/subject").post(
   teachersController.updateTeachersSubject
 );
 Router.route("/teachers/status").get(teachersController.teachersStatus);
-Router.route("/teachersDashboard").get(teachersController.teachersDashboard);
+Router.route("/user/profile").get(users.getUserProfile);
+Router.route("/user/entities").get(users.getEntities);
+
 Router.route("/teachersStatusChange").post(
   teachersController.teachersStatusChange
 );

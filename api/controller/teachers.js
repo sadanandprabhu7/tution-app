@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Teacher = require("../model/teachers");
 const CommanFunction = require("../utils/commanFunction");
-const findPineCode = require("../utils/dbConnect");
+const Entities = require("../services/entities");
 class TeachersController {
   static async teachersCreation(req, res) {
     try {
@@ -136,7 +136,7 @@ class TeachersController {
       // console.log(req.body, "body+++++++++++");
       const pin = parseInt(pinCode);
       const query = { pinCode: pin };
-      const foundPin = await findPineCode(query);
+      const foundPin = await Entities.findPineCode(query);
       // console.log(foundPin, "foundPin++++++++++++++++++++++");
       if (foundPin.length === 0) {
         return res
@@ -168,8 +168,8 @@ class TeachersController {
 
   static async updateTeachersTime(req, res) {
     try {
-      const valid = await CommanFunction.timeVerify(req.body.time);
-      if (!valid) return res.status(400).json({ message: "select valid time" });
+      // const valid = await CommanFunction.timeVerify(req.body.time);
+      // if (!valid) return res.status(400).json({ message: "select valid time" });
       const updateTeachersTime = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
         {
@@ -193,13 +193,13 @@ class TeachersController {
         req.body.checkedValues,
         "req.body.checkedValues++++++++++++++++++"
       );
-      const valid = await CommanFunction.classVerify(req.body.checkedValues);
-      if (!valid)
-        return res.status(400).json({ message: "select valid class" });
+      // const valid = await CommanFunction.classVerify(req.body.checkedValues);
+      // if (!valid)
+      //   return res.status(400).json({ message: "select valid class" });
       const updateTeachersClass = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
         {
-          $set: { classes: req.body.checkedValues, current_status: "50%" },
+          $set: { classes: req.body.classes, current_status: "50%" },
           // $set: { "status.class_status": true },
         }
       );
@@ -215,12 +215,12 @@ class TeachersController {
 
   static async updateTeachersSubject(req, res) {
     try {
-      const valid = await CommanFunction.subjectVerify(req.body.subject);
-      if (!valid) {
-        return res
-          .status(400)
-          .json({ status: false, message: "select valid subject" });
-      }
+      // const valid = await CommanFunction.subjectVerify(req.body.subject);
+      // if (!valid) {
+      //   return res
+      //     .status(400)
+      //     .json({ status: false, message: "select valid subject" });
+      // }
       const updateTeachersSubject = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
         {

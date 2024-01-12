@@ -5,6 +5,8 @@ import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginRequest } from "../Redux/Actions/LoginAction";
 import { useSnackbar } from "notistack";
+import { getUserProfile } from "../Redux/Actions/LoginAction";
+import { getEntities } from "../Redux/Actions/LoginAction";
 // import { isExpired, decodeToken } from "react-jwt";
 const LogIn = (props) => {
   const { enqueueSnackbar } = useSnackbar();
@@ -30,6 +32,8 @@ const LogIn = (props) => {
         enqueueSnackbar(`${props.userData.message}`, {
           variant: "success",
         });
+        props.getUserProfile();
+        props.getEntities();
         navigate("/MyProfile");
       } else {
         enqueueSnackbar(`${props.userData.message}`, {
@@ -118,6 +122,8 @@ const LogIn = (props) => {
 };
 LogIn.propTypes = {
   loginRequest: PropTypes.func,
+  getUserProfile: PropTypes.func,
+  getEntities: PropTypes.func,
   userData: PropTypes.any,
 };
 
@@ -127,4 +133,6 @@ const mapStateToProps = ({ app }) => ({
 
 export default connect(mapStateToProps, {
   loginRequest,
+  getUserProfile,
+  getEntities,
 })(LogIn);

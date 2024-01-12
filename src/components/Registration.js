@@ -4,10 +4,21 @@ import Address from "./registration/Address";
 import Classes from "./registration/Classes";
 import Subjects from "./registration/Subjects";
 import Times from "./registration/Times";
+import MyProfile from "./MyProfile";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
+import { getUserProfile } from "../Redux/Actions/LoginAction";
+
 const Registration = (props) => {
   console.log(props.current_status, "current_status +++++++++++++++++++++");
+  console.log(props, "props +++++++++++++++++++++");
+  useEffect(() => {
+    if (props.current_status === false) {
+      props.getUserProfile();
+      console.log("inside reg useeefect +++++++++++++++++++++");
+    }
+  }, [props.current_status]);
+
   return (
     <div className="container mt-3 my-2  form-control ">
       <h3>{"heading"}</h3>
@@ -40,7 +51,7 @@ const Registration = (props) => {
       ) : props.current_status === "75%" ? (
         <Subjects />
       ) : (
-        <Times />
+        <MyProfile />
       )}
     </div>
   );
@@ -49,10 +60,11 @@ const Registration = (props) => {
 Registration.propTypes = {
   userData: PropTypes.any,
   current_status: PropTypes.any,
+  getUserProfile: PropTypes.func,
 };
 const mapStateToProps = ({ app }) => ({
   userData: app,
   current_status: app.current_status,
 });
 
-export default connect(mapStateToProps, {})(Registration);
+export default connect(mapStateToProps, { getUserProfile })(Registration);

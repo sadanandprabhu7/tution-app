@@ -20,3 +20,25 @@ export const signUpState = (data) => ({
   type: types.SET_SIGNUP_STATE,
   data,
 });
+
+export const getUserProfile = (data) => (dispatch) => {
+  dispatch({ type: types.USERS_PROFILE_API });
+  get({
+    url: `${urls.USER_PROFILE}`,
+    success: types.SET_USERS_PROFILE_STATUS,
+    failure: types.SET_USERS_PROFILE_STATUS_ERROR,
+    dispatch,
+    body: data,
+  });
+};
+
+export const getEntities = (data) => (dispatch) => {
+  dispatch({ type: types.USERS_ENTITIES_API });
+  get({
+    url: `${urls.USER_ENTITIES}`,
+    success: types.SET_USERS_ENTITIES_STATUS,
+    failure: types.SET_USERS_ENTITIES_STATUS_ERROR,
+    dispatch,
+    body: data,
+  });
+};
