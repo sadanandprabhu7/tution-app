@@ -118,6 +118,16 @@ const Navbar = (props) => {
                     My Profile
                   </Link>
                 </li>
+
+                <li className="nav-item">
+                  <Link
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/Search"
+                  >
+                    Find Student
+                  </Link>
+                </li>
                 {/* <li className="nav-item">
                 <Link className="nav-link" to="/AboutUs">
                   About Us

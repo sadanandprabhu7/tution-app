@@ -8,11 +8,17 @@ import Navbar from "./components/Navbar";
 import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
 import MyProfile from "./components/MyProfile";
-import { useSelector } from "react-redux";
 import PrivateRoute from "./components/PrivateRoute";
-import Registration from "./components/Registration";
+import FindStudent from "./components/FindStudent";
+// const ProtectedRoute = ({ user, redirectPath = "/landing" }) => {
+//   if (!user) {
+//     return <Navigate to={redirectPath} replace />;
+//   }
+
+//   return <Outlet />;
+// };
+
 function App() {
-  const status = useSelector((state) => state.status);
   return (
     <>
       <Router>
@@ -20,19 +26,21 @@ function App() {
         <div className="container my-3">
           <Routes>
             <Route element={<PrivateRoute />}>
-              <Route
-                exact
-                path="/MyProfile"
-                element={status === "100%" ? <MyProfile /> : <Registration />}
-              />
+              <Route exact path="/MyProfile" element={<MyProfile />} />
+              <Route exact path="/Search" element={<FindStudent />} />
+
               {/* <Route exact path="/MyProfile" element={<MyProfile />} /> */}
             </Route>
-
+            {/* <Route element={<ProtectedRoute user={user} />}>
+              <Route path="home" element={<Home />} />
+              <Route path="dashboard" element={<Dashboard />} />
+            </Route> */}
             <Route exact path="/" element={<Home />} />
             <Route exact path="/AboutUs" element={<AboutUs />} />
             <Route exact path="/ContactUs" element={<ContactUs />} />
             <Route exact path="/LogIn" element={<LogIn />} />
             <Route exact path="/SignUp" element={<SignUp />} />
+            <Route path="*" element={<p>There's nothing here: 404!</p>} />
           </Routes>
         </div>
       </Router>

@@ -425,7 +425,7 @@ const MyProfile = (props) => {
               aria-expanded="false"
               aria-controls="panelsStayOpen-collapseThree"
             >
-              Classes details{" "}
+              Classes details
             </button>
           </h2>
           <div
@@ -468,15 +468,15 @@ const MyProfile = (props) => {
               className="accordion-button collapsed"
               type="button"
               data-bs-toggle="collapse"
-              data-bs-target="#panelsStayOpen-collapseThree"
+              data-bs-target="#panelsStayOpen-collapseFour"
               aria-expanded="false"
-              aria-controls="panelsStayOpen-collapseThree"
+              aria-controls="panelsStayOpen-collapseFour"
             >
               Time details
             </button>
           </h2>
           <div
-            id="panelsStayOpen-collapseThree"
+            id="panelsStayOpen-collapseFour"
             className="accordion-collapse collapse"
             // style={""}
           >
