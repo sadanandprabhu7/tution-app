@@ -9,21 +9,18 @@ import {
   getEntities,
 } from "../../Redux/Actions/LoginAction";
 const Subjects = (props) => {
-  // let masterSubjects = props?.entities?.subjects[0]?.subjects;
   useEffect(() => {
     if (props.entities === false) {
       props.getEntities();
-      setSelectedSubjects(props.userData.profile.subjects);
     }
-  }, [props.entities, props.userData.profile.subjects]);
-  // useEffect(() => {
-  //   if (props.buttonValue === "update") {
-  //     setSelectedSubjects(props.oldData);
-  //   }
-  // }, [props.buttonValue]);
-  const [selectedSubjects, setSelectedSubjects] = useState(
-    props.userData.profile.subjects
-  );
+  }, [props.entities]);
+
+  const [selectedSubjects, setSelectedSubjects] = useState([
+    {
+      key: "key",
+      name: "name",
+    },
+  ]);
 
   const { enqueueSnackbar } = useSnackbar();
 
@@ -46,9 +43,11 @@ const Subjects = (props) => {
   };
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    console.log(selectedSubjects, "selectedSubjects++++++++++++++++++++++++++");
+    const updatedSubjectsNew = selectedSubjects.filter(
+      (subject) => subject.key !== "key"
+    );
     const obj = {
-      subject: selectedSubjects,
+      subjects: updatedSubjectsNew,
     };
     props.updateTeachersSubject(
       obj,

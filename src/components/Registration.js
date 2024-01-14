@@ -20,8 +20,8 @@ const Registration = (props) => {
   }, [props.current_status]);
 
   return (
-    <div className="container mt-3 my-2  form-control ">
-      {/* <h3>{"heading"}</h3> */}
+    <>
+      {/* <div className="container mt-3 my-2  form-control "> */}
       <div className="container mt-3 my-2  form-control ">
         <div className="container mt-3 my-2">
           <div
@@ -42,7 +42,6 @@ const Registration = (props) => {
         </div>
       </div>
       {props.current_status === "10%" ? (
-        // <AddressTest setAddrees={updateTeachersAddress} add={props.mydetails} />
         <Address />
       ) : props.current_status === "25%" ? (
         <Classes />
@@ -53,9 +52,9 @@ const Registration = (props) => {
       ) : (
         <MyProfile />
       )}
-    </div>
+      {/* </div> */}
+    </>
   );
-  // }
 };
 Registration.propTypes = {
   userData: PropTypes.any,

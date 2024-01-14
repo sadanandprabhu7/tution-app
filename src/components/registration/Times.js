@@ -5,14 +5,15 @@ import { updateTeachersTime } from "../../api_operations/actions";
 import { useSnackbar } from "notistack";
 import { signUpState, getEntities } from "../../Redux/Actions/LoginAction";
 const Times = (props) => {
-  // console.log(props.entities.times[0].times, "times++++++++++++++++++++++++++");
   useEffect(() => {
     if (props.entities === false) {
       props.getEntities();
     }
   }, [props.entities]);
   const { enqueueSnackbar } = useSnackbar();
-  const [selectedtimes, setSelectedtimes] = useState([]);
+  const [selectedtimes, setSelectedtimes] = useState([
+    { key: "key", name: "name" },
+  ]);
 
   const handleCheckboxChanges = (key, name) => {
     const istimeselected = selectedtimes.some((subject) => subject.key === key);
@@ -32,8 +33,11 @@ const Times = (props) => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    const updatedTimesNew = selectedtimes.filter(
+      (subject) => subject.key !== "key"
+    );
     const obj = {
-      time: selectedtimes,
+      times: updatedTimesNew,
     };
     props.updateTeachersTime(
       obj,
@@ -68,7 +72,7 @@ const Times = (props) => {
                 className="form-check-input"
                 type="checkbox"
                 id={`timesObj-${timesObj.key}`}
-                checked={selectedtimes.some((t) => t.key === timesObj.key)}
+                checked={selectedtimes?.some((t) => t.key === timesObj.key)}
                 onChange={() =>
                   handleCheckboxChanges(timesObj.key, timesObj.name)
                 }

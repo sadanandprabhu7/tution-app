@@ -9,13 +9,15 @@ const Classes = (props) => {
   useEffect(() => {
     if (props.entities === false) {
       props.getEntities();
-      setSelectedclasses(props.userData.profile.classes);
     }
-  }, [props.entities, props.userData.profile.classes]);
+  }, [props.entities]);
   const { enqueueSnackbar } = useSnackbar();
-  const [selectedclasses, setSelectedclasses] = useState(
-    props.userData.profile.classes
-  );
+  const [selectedclasses, setSelectedclasses] = useState([
+    {
+      key: "key",
+      name: "name",
+    },
+  ]);
 
   const handleCheckboxChanges = (key, name) => {
     const isclasseselected = selectedclasses.some(
@@ -36,8 +38,11 @@ const Classes = (props) => {
   };
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    const updatedclassesNew = selectedclasses.filter(
+      (subject) => subject.key !== "key"
+    );
     const obj = {
-      classes: selectedclasses,
+      classes: updatedclassesNew,
     };
     props.updateTeachersClass(
       obj,
@@ -72,7 +77,7 @@ const Classes = (props) => {
                 className="form-check-input"
                 type="checkbox"
                 id={`classesObj-${classesObj.key}`}
-                checked={selectedclasses.some((c) => c.key === classesObj.key)}
+                checked={selectedclasses?.some((c) => c.key === classesObj.key)}
                 onChange={() =>
                   handleCheckboxChanges(classesObj.key, classesObj.name)
                 }

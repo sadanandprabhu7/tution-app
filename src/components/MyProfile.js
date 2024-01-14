@@ -304,105 +304,208 @@ const MyProfile = (props) => {
           </div>
         </div>
       </div>
-      <div className="container form-control my-2">
-        <div className="d-flex position-relative">
-          <img
-            src={profileImgae2}
-            width="100"
-            height="100"
-            className="flex-shrink-0 me-3"
-            alt="..."
-          />
-          <div>
-            <h5 className="mt-0">Personal details</h5>
-            <p>Hi {profile?.name}</p>
-            <p>Email {profile?.email}</p>
 
-            <p>Area - {profile?.address?.area}</p>
-            <p>Landmark - {profile?.address?.landmark}</p>
-            <p>District - {profile?.address?.district}</p>
-            <p>State - {profile?.address?.state}</p>
-            <p>Pin Code - {profile?.address?.pin_code}</p>
+      <div className="accordion" id="accordionPanelsStayOpenExample">
+        <div className="accordion-item">
+          <h2 className="accordion-header">
             <button
+              className="accordion-button"
               type="button"
-              className="btn btn-primary"
-              onClick={() => updateClasses("A")}
+              data-bs-toggle="collapse"
+              data-bs-target="#panelsStayOpen-collapseOne"
+              aria-expanded="true"
+              aria-controls="panelsStayOpen-collapseOne"
             >
-              Update
+              Personal details
+              {/* <h5 className="mt-0">Personal details</h5> */}
             </button>
+          </h2>
+          <div
+            id="panelsStayOpen-collapseOne"
+            className="accordion-collapse collapse show"
+            // style={""}
+          >
+            <div className="accordion-body">
+              <div className="container form-control my-2">
+                <div className="d-flex position-relative">
+                  <img
+                    src={profileImgae2}
+                    width="100"
+                    height="100"
+                    className="flex-shrink-0 me-3"
+                    alt="..."
+                  />
+                  <div>
+                    {/* <h5 className="mt-0">Personal details</h5> */}
+                    <p key={"Hi"}>Hi {profile?.name}</p>
+                    <p key={"Email"}>Email {profile?.email}</p>
+                    <p key={"Area"}>Area - {profile?.address?.area}</p>
+                    <p key={"Landmark"}>
+                      Landmark - {profile?.address?.landmark}
+                    </p>
+                    <p key={"District"}>
+                      District - {profile?.address?.district}
+                    </p>
+                    <p key={"State"}>State - {profile?.address?.state}</p>
+                    <p key={"Pin"}>Pin Code - {profile?.address?.pin_code}</p>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => updateClasses("A")}
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="container form-control my-2">
-        <div className="d-flex position-relative">
-          <img
-            src={subjects}
-            width="100"
-            height="100"
-            className="flex-shrink-0 me-3"
-            alt="..."
-          />
-          <div>
-            <h5 className="mt-0">Subject details</h5>
-            {profile?.subjects?.map((paragraph) => (
-              <p key={paragraph.key}>{paragraph.name}</p>
-            ))}
+        <div className="accordion-item">
+          <h2 className="accordion-header">
             <button
+              className="accordion-button collapsed"
               type="button"
-              className="btn btn-primary"
-              onClick={() => updateClasses("S")}
+              data-bs-toggle="collapse"
+              data-bs-target="#panelsStayOpen-collapseTwo"
+              aria-expanded="false"
+              aria-controls="panelsStayOpen-collapseTwo"
             >
-              Update
+              Subject details
             </button>
+          </h2>
+          <div
+            id="panelsStayOpen-collapseTwo"
+            className="accordion-collapse collapse"
+            // style={""}
+          >
+            <div className="accordion-body">
+              {/* <strong>This is the second item's accordion body.</strong> It is
+              hidden by default, until the collapse plugin adds the appropriate
+              classes that we use to style each element. These classes control
+              the overall appearance, as well as the showing and hiding via CSS
+              transitions. You can modify any of this with custom CSS or
+              overriding our default variables. It's also worth noting that just
+              about any HTML can go within the <code>.accordion-body</code>,
+              though the transition does limit overflow. */}
+              <div className="container form-control my-2">
+                <div className="d-flex position-relative">
+                  <img
+                    src={subjects}
+                    width="100"
+                    height="100"
+                    className="flex-shrink-0 me-3"
+                    alt="..."
+                  />
+                  <div>
+                    {/* <h5 className="mt-0">Subject details</h5> */}
+                    {profile?.subjects?.map((paragraph) => (
+                      <p key={paragraph.key}>{paragraph.name}</p>
+                    ))}
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => updateClasses("S")}
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="container form-control my-2">
-        <div className="d-flex position-relative">
-          <img
-            src={classes}
-            width="100"
-            height="100"
-            className="flex-shrink-0 me-3"
-            alt="..."
-          />
-          <div>
-            <h5 className="mt-0">Classes details</h5>
-            {profile?.classes?.map((paragraph) => (
-              <p key={paragraph.key}>{paragraph.name}</p>
-            ))}
+        <div className="accordion-item">
+          <h2 className="accordion-header">
+            <button
+              className="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#panelsStayOpen-collapseThree"
+              aria-expanded="false"
+              aria-controls="panelsStayOpen-collapseThree"
+            >
+              Classes details{" "}
+            </button>
+          </h2>
+          <div
+            id="panelsStayOpen-collapseThree"
+            className="accordion-collapse collapse"
+            // style={""}
+          >
+            <div className="accordion-body">
+              <div className="container form-control my-2">
+                <div className="d-flex position-relative">
+                  <img
+                    src={classes}
+                    width="100"
+                    height="100"
+                    className="flex-shrink-0 me-3"
+                    alt="..."
+                  />
+                  <div>
+                    {/* <h5 className="mt-0">Classes details</h5> */}
+                    {profile?.classes?.map((paragraph) => (
+                      <p key={paragraph.key}>{paragraph.name}</p>
+                    ))}
 
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={() => updateClasses("C")}
-            >
-              Update
-            </button>
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => updateClasses("C")}
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="container form-control my-2">
-        <div className="d-flex position-relative">
-          <img
-            src={times}
-            width="100"
-            height="100"
-            className="flex-shrink-0 me-3"
-            alt="..."
-          />
-          <div>
-            <h5 className="mt-0">Time details</h5>
-            {profile?.times?.map((paragraph) => (
-              <p key={paragraph.key}>{paragraph.name}</p>
-            ))}
+        <div className="accordion-item">
+          <h2 className="accordion-header">
             <button
+              className="accordion-button collapsed"
               type="button"
-              className="btn btn-primary"
-              onClick={() => updateClasses("T")}
+              data-bs-toggle="collapse"
+              data-bs-target="#panelsStayOpen-collapseThree"
+              aria-expanded="false"
+              aria-controls="panelsStayOpen-collapseThree"
             >
-              Update
+              Time details
             </button>
+          </h2>
+          <div
+            id="panelsStayOpen-collapseThree"
+            className="accordion-collapse collapse"
+            // style={""}
+          >
+            <div className="accordion-body">
+              <div className="container form-control my-2">
+                <div className="d-flex position-relative">
+                  <img
+                    src={times}
+                    width="100"
+                    height="100"
+                    className="flex-shrink-0 me-3"
+                    alt="..."
+                  />
+                  <div>
+                    {/* <h5 className="mt-0">Time details</h5> */}
+                    {profile?.times?.map((paragraph) => (
+                      <p key={paragraph.key}>{paragraph.name}</p>
+                    ))}
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={() => updateClasses("T")}
+                    >
+                      Update
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
