@@ -133,7 +133,7 @@ class TeachersController {
       // if (valid.length > 0) {
       //   return res.status(400).json({ message: valid[0] });
       // }
-      // console.log(req.body, "body+++++++++++");
+      console.log(req.body, "body+++++++++++");
       const pin = parseInt(pinCode);
       const query = { pinCode: pin };
       const foundPin = await Entities.findPineCode(query);
@@ -147,15 +147,19 @@ class TeachersController {
       req.body.pin_code = foundPin[0].pinCode;
       req.body.state = foundPin[0].state;
       req.body.district = foundPin[0].district;
+
+      const updateQuery = {};
+      if (req.user.current_status == "100%") {
+        updateQuery["$push"] = { address: req.body };
+      } else {
+        updateQuery["$push"] = { address: req.body };
+        updateQuery["$set"] = { current_status: "25%" };
+      }
       const updatedAddress = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
-        {
-          $push: { address: req.body },
-          $set: { "status.address_status": true },
-          $set: { current_status: "25%" },
-        }
+        updateQuery
       );
-      console.log(updatedAddress, "+++++++++++++++++++++++++++++++");
+      // console.log(updatedAddress, "+++++++++++++++++++++++++++++++");
       res.status(200).json({
         status: true,
         current_status: "25%",
@@ -168,14 +172,18 @@ class TeachersController {
 
   static async updateTeachersTime(req, res) {
     try {
+      console.log(req.body.times, "req.body.time+++++++++++++++++++++++++++++");
+      const updateQuery = {};
+      if (req.user.current_status == "100%") {
+        updateQuery["$set"] = { times: req.body.times };
+      } else {
+        updateQuery["$set"] = { times: req.body.times, current_status: "75%" };
+      }
       // const valid = await CommanFunction.timeVerify(req.body.time);
       // if (!valid) return res.status(400).json({ message: "select valid time" });
       const updateTeachersTime = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
-        {
-          $set: { times: req.body.time, current_status: "75%" },
-          // $set: { "status.time_status": true },
-        }
+        updateQuery
       );
       console.log(updateTeachersTime);
       res.status(200).json({
@@ -189,19 +197,21 @@ class TeachersController {
   }
   static async updateTeachersClass(req, res) {
     try {
-      console.log(
-        req.body.checkedValues,
-        "req.body.checkedValues++++++++++++++++++"
-      );
+      const updateQuery = {};
+      if (req.user.current_status == "100%") {
+        updateQuery["$set"] = { classes: req.body.classes };
+      } else {
+        updateQuery["$set"] = {
+          classes: req.body.classes,
+          current_status: "50%",
+        };
+      }
       // const valid = await CommanFunction.classVerify(req.body.checkedValues);
       // if (!valid)
       //   return res.status(400).json({ message: "select valid class" });
       const updateTeachersClass = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
-        {
-          $set: { classes: req.body.classes, current_status: "50%" },
-          // $set: { "status.class_status": true },
-        }
+        updateQuery
       );
       res.status(200).json({
         status: true,
@@ -221,12 +231,18 @@ class TeachersController {
       //     .status(400)
       //     .json({ status: false, message: "select valid subject" });
       // }
+      const updateQuery = {};
+      if (req.user.current_status == "100%") {
+        updateQuery["$set"] = { subjects: req.body.subjects };
+      } else {
+        updateQuery["$set"] = {
+          subjects: req.body.subjects,
+          current_status: "100%",
+        };
+      }
       const updateTeachersSubject = await Teacher.findByIdAndUpdate(
         { _id: req.user._id },
-        {
-          $set: { subjects: req.body.subject, current_status: "100%" },
-          // $set: { "status.subject_status": true },
-        }
+        updateQuery
       );
       console.log(updateTeachersSubject.subjects);
       res.status(200).json({

@@ -13,11 +13,19 @@ const Subjects = (props) => {
   useEffect(() => {
     if (props.entities === false) {
       props.getEntities();
+      setSelectedSubjects(props.userData.profile.subjects);
     }
-  }, [props.entities]);
+  }, [props.entities, props.userData.profile.subjects]);
+  // useEffect(() => {
+  //   if (props.buttonValue === "update") {
+  //     setSelectedSubjects(props.oldData);
+  //   }
+  // }, [props.buttonValue]);
+  const [selectedSubjects, setSelectedSubjects] = useState(
+    props.userData.profile.subjects
+  );
 
   const { enqueueSnackbar } = useSnackbar();
-  const [selectedSubjects, setSelectedSubjects] = useState([]);
 
   const handleCheckboxChanges = (key, name) => {
     const isSubjectSelected = selectedSubjects.some(
@@ -66,7 +74,7 @@ const Subjects = (props) => {
   };
 
   return (
-    <div className="container form-control mt-3">
+    <div className="container mt-3">
       <form onSubmit={onSubmitHandler} className="form-control">
         <h3>Subject Selection</h3>
         {props.entities.subjects &&
@@ -76,7 +84,7 @@ const Subjects = (props) => {
                 className="form-check-input"
                 type="checkbox"
                 id={`subject-${subject.key}`}
-                checked={selectedSubjects.some((s) => s.key === subject.key)}
+                checked={selectedSubjects?.some((s) => s.key === subject.key)}
                 onChange={() =>
                   handleCheckboxChanges(subject.key, subject.name)
                 }
@@ -94,6 +102,13 @@ const Subjects = (props) => {
           <button type="submit" className="btn btn-success mx-2 my-3">
             Submit
           </button>
+          {/* {props.buttonValue && props.buttonValue === "update" ? (
+            <></>
+          ) : (
+            <button type="submit" className="btn btn-success mx-2 my-3">
+              Submit
+            </button>
+          )} */}
         </div>
       </form>
     </div>
@@ -105,6 +120,7 @@ Subjects.propTypes = {
   signUpState: PropTypes.func,
   getUserProfile: PropTypes.func,
   entities: PropTypes.any,
+  userData: PropTypes.any,
 };
 
 const mapStateToProps = ({ app }) => ({

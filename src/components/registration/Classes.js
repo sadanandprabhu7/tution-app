@@ -9,10 +9,13 @@ const Classes = (props) => {
   useEffect(() => {
     if (props.entities === false) {
       props.getEntities();
+      setSelectedclasses(props.userData.profile.classes);
     }
-  }, [props.entities]);
+  }, [props.entities, props.userData.profile.classes]);
   const { enqueueSnackbar } = useSnackbar();
-  const [selectedclasses, setSelectedclasses] = useState([]);
+  const [selectedclasses, setSelectedclasses] = useState(
+    props.userData.profile.classes
+  );
 
   const handleCheckboxChanges = (key, name) => {
     const isclasseselected = selectedclasses.some(

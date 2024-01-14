@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -6,22 +6,304 @@ import profileImgae2 from "../images/profile2.png";
 import classes from "../images/classes.png";
 import times from "../images/times.png";
 import subjects from "../images/subjects.png";
+import {
+  updateTeachersClass,
+  updateTeachersSubject,
+  updateTeachersTime,
+  updateTeachersAddress,
+} from "../api_operations/actions";
+import { useSnackbar } from "notistack";
 
-import { getUserProfile } from "../Redux/Actions/LoginAction";
+import { getUserProfile, getEntities } from "../Redux/Actions/LoginAction";
 
 const MyProfile = (props) => {
+  const { enqueueSnackbar } = useSnackbar();
+  const ref = useRef(null);
+  const refClose = useRef(null);
+  console.log(props, "props+++++++++++++++++++++++++++++ for subjects ");
   const { profile } = props;
-  // console.log(profile, "profile++++++++++++++++++++++++++++++");
-  // console.log(props, "props++++++++++++++++++++++++++++++");
+  const [selectedItems, setselectedItems] = useState();
+  const [initialEntities, setinitialEntities] = useState();
+
+  const [itemKey, setitemKey] = useState(null);
+  const handleCheckboxChanges = (key, name) => {
+    const isclasseselected = selectedItems.some(
+      (subject) => subject.key === key
+    );
+
+    if (isclasseselected) {
+      const updatedclasses = selectedItems.filter(
+        (subject) => subject.key !== key
+      );
+      setselectedItems(updatedclasses);
+    } else {
+      setselectedItems((prevselectedItems) => [
+        ...prevselectedItems,
+        { key, name },
+      ]);
+    }
+  };
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setinitialEntities((prevaddress) => ({
+      ...prevaddress,
+      [name]: value,
+    }));
+  };
   useEffect(() => {
     if (props.current_status === false) {
       props.getUserProfile();
-      console.log("inside reg useeefect +++++++++++++++++++++");
+    }
+    if (props.entities === false) {
+      props.getEntities();
     }
   }, [props]);
+  const updateClasses = (key) => {
+    if (key === "C") {
+      setinitialEntities(props.entities.classes[0].classes);
+      setselectedItems(props?.profile.classes);
+    }
+    if (key === "S") {
+      setinitialEntities(props.entities.subjects[0].subjects);
+      setselectedItems(props?.profile.subjects);
+    }
+    if (key === "T") {
+      setinitialEntities(props.entities.times[0].times);
+      setselectedItems(props?.profile.times);
+    }
+    if (key === "A") {
+      setinitialEntities({
+        landmark: props.profile.address.landmark,
+        pinCode: props.profile.address.pin_code,
+      });
+      // setselectedItems(props?.profile.times);
+    }
+    setitemKey(key);
+    ref.current.click();
+  };
+  const saveUpdateHandler = async (e) => {
+    e.preventDefault();
+    const obj = {};
+    if (itemKey === "C") {
+      obj["classes"] = selectedItems;
+      props.updateTeachersClass(
+        obj,
+        (res) => {
+          if (res?.status === true) {
+            // props.signUpState(res.current_status);
+            enqueueSnackbar(`${res.message}`, {
+              variant: "success",
+            });
+            props.getUserProfile();
+
+            refClose.current.click();
+          } else {
+            enqueueSnackbar(`${res.message}`, {
+              variant: "error",
+            });
+          }
+        },
+        (err) => {
+          enqueueSnackbar(`${err.message}`, {
+            variant: "error",
+          });
+        }
+      );
+    }
+    if (itemKey === "S") {
+      obj["subjects"] = selectedItems;
+      props.updateTeachersSubject(
+        obj,
+        (res) => {
+          if (res?.status === true) {
+            // props.signUpState(res.current_status);
+            enqueueSnackbar(`${res.message}`, {
+              variant: "success",
+            });
+            props.getUserProfile();
+            refClose.current.click();
+          } else {
+            enqueueSnackbar(`${res.message}`, {
+              variant: "error",
+            });
+          }
+        },
+        (err) => {
+          enqueueSnackbar(`${err.message}`, {
+            variant: "error",
+          });
+        }
+      );
+    }
+    if (itemKey === "T") {
+      obj["times"] = selectedItems;
+      props.updateTeachersTime(
+        obj,
+        (res) => {
+          if (res?.status === true) {
+            // props.signUpState(res.current_status);
+            enqueueSnackbar(`${res.message}`, {
+              variant: "success",
+            });
+            props.getUserProfile();
+            refClose.current.click();
+          } else {
+            enqueueSnackbar(`${res.message}`, {
+              variant: "error",
+            });
+          }
+        },
+        (err) => {
+          enqueueSnackbar(`${err.message}`, {
+            variant: "error",
+          });
+        }
+      );
+    }
+    if (itemKey === "A") {
+      props.updateTeachersAddress(
+        initialEntities,
+        (res) => {
+          if (res?.status === true) {
+            // props.signUpState(res.current_status);
+            enqueueSnackbar(`${res.message}`, {
+              variant: "success",
+            });
+            props.getUserProfile();
+            refClose.current.click();
+          } else {
+            enqueueSnackbar(`${res.message}`, {
+              variant: "error",
+            });
+          }
+        },
+        (err) => {
+          enqueueSnackbar(`${err.message}`, {
+            variant: "error",
+          });
+        }
+      );
+    }
+  };
   return (
     <>
-      <h1>profile</h1>
+      <div>
+        <button
+          type="button"
+          className="btn btn-primary d-none"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+          ref={ref}
+        >
+          Launch demo modal
+        </button>
+
+        <div
+          className="modal fade"
+          id="exampleModal"
+          tabIndex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h1 className="modal-title fs-5" id="exampleModalLabel">
+                  {itemKey && itemKey === "C" ? (
+                    "Update Classes"
+                  ) : itemKey === "S" ? (
+                    "Update Subjects"
+                  ) : itemKey === "T" ? (
+                    "Update Times"
+                  ) : (
+                    <></>
+                  )}
+                </h1>
+                <button
+                  type="button"
+                  className="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div className="modal-body">
+                {itemKey === "A" ? (
+                  <>
+                    <form className="row g-3">
+                      <div className="col-md-6">
+                        <label htmlFor="inputCity" className="form-label">
+                          Landmark
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="landmark"
+                          id="inputCity"
+                          value={initialEntities.landmark}
+                          onChange={onChangeHandler}
+                        />
+                      </div>
+                      <div className="col-md-2">
+                        <label htmlFor="inputZip" className="form-label">
+                          Zip
+                        </label>
+                        <input
+                          type="text"
+                          className="form-control"
+                          name="pinCode"
+                          id="inputZip"
+                          value={initialEntities.pinCode}
+                          onChange={onChangeHandler}
+                        />
+                      </div>
+                    </form>
+                  </>
+                ) : (
+                  initialEntities &&
+                  initialEntities.map((itemObj) => (
+                    <div className="form-check" key={itemObj.key}>
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        id={`itemObj-${itemObj.key}`}
+                        checked={selectedItems?.some(
+                          (c) => c.key === itemObj.key
+                        )}
+                        onChange={() =>
+                          handleCheckboxChanges(itemObj.key, itemObj.name)
+                        }
+                      />
+                      <label
+                        className="form-check-label"
+                        htmlFor={`itemObj-${itemObj.key}`}
+                      >
+                        {itemObj.name}
+                      </label>
+                    </div>
+                  ))
+                )}
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary d-none"
+                  data-bs-dismiss="modal"
+                  ref={refClose}
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onClick={saveUpdateHandler}
+                  className="btn btn-primary"
+                >
+                  Save changes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="container form-control my-2">
         <div className="d-flex position-relative">
           <img
@@ -35,9 +317,19 @@ const MyProfile = (props) => {
             <h5 className="mt-0">Personal details</h5>
             <p>Hi {profile?.name}</p>
             <p>Email {profile?.email}</p>
-            <Link to="/" className="stretched-link">
-              Go somewhere
-            </Link>
+
+            <p>Area - {profile?.address?.area}</p>
+            <p>Landmark - {profile?.address?.landmark}</p>
+            <p>District - {profile?.address?.district}</p>
+            <p>State - {profile?.address?.state}</p>
+            <p>Pin Code - {profile?.address?.pin_code}</p>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => updateClasses("A")}
+            >
+              Update
+            </button>
           </div>
         </div>
       </div>
@@ -55,10 +347,13 @@ const MyProfile = (props) => {
             {profile?.subjects?.map((paragraph) => (
               <p key={paragraph.key}>{paragraph.name}</p>
             ))}
-
-            <Link to="/" className="stretched-link">
-              Go somewhere
-            </Link>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => updateClasses("S")}
+            >
+              Update
+            </button>
           </div>
         </div>
       </div>
@@ -77,9 +372,13 @@ const MyProfile = (props) => {
               <p key={paragraph.key}>{paragraph.name}</p>
             ))}
 
-            <Link to="/" className="stretched-link">
-              Go somewhere
-            </Link>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => updateClasses("C")}
+            >
+              Update
+            </button>
           </div>
         </div>
       </div>
@@ -97,10 +396,13 @@ const MyProfile = (props) => {
             {profile?.times?.map((paragraph) => (
               <p key={paragraph.key}>{paragraph.name}</p>
             ))}
-
-            <Link to="/" className="stretched-link">
-              Go somewhere
-            </Link>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => updateClasses("T")}
+            >
+              Update
+            </button>
           </div>
         </div>
       </div>
@@ -111,10 +413,25 @@ const MyProfile = (props) => {
 MyProfile.propTypes = {
   profile: PropTypes.any,
   getUserProfile: PropTypes.func,
+  getEntities: PropTypes.func,
+  entities: PropTypes.any,
+  UpdateModal: PropTypes.func,
+  updateTeachersClass: PropTypes.func,
+  updateTeachersSubject: PropTypes.func,
+  updateTeachersTime: PropTypes.func,
+  updateTeachersAddress: PropTypes.func,
 };
 
 const mapStateToProps = ({ app }) => ({
   profile: app.profile,
+  entities: app.entities,
 });
 
-export default connect(mapStateToProps, { getUserProfile })(MyProfile);
+export default connect(mapStateToProps, {
+  getUserProfile,
+  getEntities,
+  updateTeachersClass,
+  updateTeachersSubject,
+  updateTeachersTime,
+  updateTeachersAddress,
+})(MyProfile);

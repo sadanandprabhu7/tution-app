@@ -21,7 +21,7 @@ const Registration = (props) => {
 
   return (
     <div className="container mt-3 my-2  form-control ">
-      <h3>{"heading"}</h3>
+      {/* <h3>{"heading"}</h3> */}
       <div className="container mt-3 my-2  form-control ">
         <div className="container mt-3 my-2">
           <div
