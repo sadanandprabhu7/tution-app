@@ -515,6 +515,7 @@ const MyProfile = (props) => {
 
 MyProfile.propTypes = {
   profile: PropTypes.any,
+  current_status: PropTypes.any,
   getUserProfile: PropTypes.func,
   getEntities: PropTypes.func,
   entities: PropTypes.any,
@@ -528,6 +529,7 @@ MyProfile.propTypes = {
 const mapStateToProps = ({ app }) => ({
   profile: app.profile,
   entities: app.entities,
+  current_status: app.current_status,
 });
 
 export default connect(mapStateToProps, {

@@ -8,6 +8,7 @@ import Navbar from "./components/Navbar";
 import LogIn from "./components/LogIn";
 import SignUp from "./components/SignUp";
 import MyProfile from "./components/MyProfile";
+import Registration from "./components/Registration";
 import PrivateRoute from "./components/PrivateRoute";
 import FindStudent from "./components/FindStudent";
 // const ProtectedRoute = ({ user, redirectPath = "/landing" }) => {
@@ -26,7 +27,7 @@ function App() {
         <div className="container my-3">
           <Routes>
             <Route element={<PrivateRoute />}>
-              <Route exact path="/MyProfile" element={<MyProfile />} />
+              <Route exact path="/MyProfile" element={<Registration />} />
               <Route exact path="/Search" element={<FindStudent />} />
 
               {/* <Route exact path="/MyProfile" element={<MyProfile />} /> */}
