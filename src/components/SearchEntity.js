@@ -190,11 +190,11 @@ const SearchEntity = ({ payout }) => {
                 style={{ margin: "2rem 0" }}
               >
                 <CustomTable
-                  page={page}
-                  order={order}
-                  orderBy={orderBy}
-                  setOrder={setOrder}
-                  setOrderBy={setOrderBy}
+                  page={page} /// done using useSate
+                  order={order} /// done using useSate
+                  orderBy={orderBy} /// done using useSate
+                  setOrder={setOrder} /// done using useSate
+                  setOrderBy={setOrderBy} /// done using useSate
                   data={lastCalcData}
                   headCells={headCellsItems}
                   dataParameter={false}
@@ -203,12 +203,24 @@ const SearchEntity = ({ payout }) => {
                   selected={false}
                   setSelected={false}
                   isSelection={false}
-                  rowsPerPage={rowsPerPage}
-                  pageDetails={pageDetails}
+                  rowsPerPage={rowsPerPage} /// done using useSate
+                  pageDetails={pageDetails} /// done using useSate
                   handleChangePage={handleChangePage}
                   handleChangeRowsPerPage={handleChangeRowsPerPage}
-                  totalCount={pageDetails.total}
+                  totalCount={pageDetails.total} /// done using useSate
                   paginationFlag={false}
+
+                  // const classes = useStyles();
+                  // const oldTheme = useTheme();
+                  // const { enqueueSnackbar } = useSnackbar();
+                  // const [open, setOpen] = React.useState(false);
+                  // const [lastCalcData, setLastCalculationData] = React.useState([]);
+                  // const [page, setPage] = React.useState(1);
+                  // const [initialCall, setInitialCall] = React.useState(true);
+                  // const [pageDetails, setPageDetails] = React.useState({ ...TablePageData });
+                  // const [order, setOrder] = React.useState("desc");
+                  // const [orderBy, setOrderBy] = React.useState("ProcessorName");
+                  // const [rowsPerPage, setRowsPerPage] = React.useState(5);
                 >
                   {lastCalcData.map((row) => {
                     return (
