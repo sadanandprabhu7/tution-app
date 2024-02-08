@@ -10,7 +10,7 @@ import SignUp from "./components/SignUp";
 import MyProfile from "./components/MyProfile";
 import Registration from "./components/Registration";
 import PrivateRoute from "./components/PrivateRoute";
-import FindStudent from "./components/FindStudent";
+import SearchEntity from "./components/SearchEntity";
 // const ProtectedRoute = ({ user, redirectPath = "/landing" }) => {
 //   if (!user) {
 //     return <Navigate to={redirectPath} replace />;
@@ -28,7 +28,7 @@ function App() {
           <Routes>
             <Route element={<PrivateRoute />}>
               <Route exact path="/MyProfile" element={<Registration />} />
-              <Route exact path="/Search" element={<FindStudent />} />
+              <Route exact path="/Search" element={<SearchEntity />} />
 
               {/* <Route exact path="/MyProfile" element={<MyProfile />} /> */}
             </Route>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const FindStudent = () => {
+const SearchEntity = () => {
   return (
     <div>
       <h1>Sadanand</h1>
@@ -8,4 +8,4 @@ const FindStudent = () => {
   );
 };
 
-export default FindStudent;
+export default SearchEntity;
