@@ -121,23 +121,13 @@ const SearchEntity = () => {
     // enablePagination: false,
     // enableSorting: false,
     enableColumnResizing: true,
-    muiTableBodyProps: {
-      sx: {
-        //stripe the rows, make odd rows a darker color
-        // "& td:nth-of-type(odd)": {
-        //   backgroundColor: "#f5f5f5",
-        // },
-        backgroundColor: "#f5f5f5",
-      },
+    muiSearchTextFieldProps: {
+      placeholder: "Search By Pincode only",
+      sx: { minWidth: "300px" },
+      variant: "outlined",
     },
-    muiTableBodyCellProps: {
-      sx: {
-        borderRight: "2px solid #e0e0e0", //add a border between columns
-      },
-    },
-
     getRowId: (row) => row.phoneNumber,
-    initialState: { showColumnFilters: true },
+    initialState: { showGlobalFilter: true },
     manualFiltering: true,
     manualPagination: true,
     manualSorting: true,
@@ -147,6 +137,7 @@ const SearchEntity = () => {
           children: "Error loading data",
         }
       : undefined,
+
     onColumnFiltersChange: setColumnFilters,
     onGlobalFilterChange: setGlobalFilter,
     onPaginationChange: setPagination,
