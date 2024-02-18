@@ -122,7 +122,7 @@ const SearchEntity = () => {
     // enableSorting: false,
     enableColumnResizing: true,
     muiSearchTextFieldProps: {
-      placeholder: "Search By Pincode only",
+      placeholder: "Search by Pincode only",
       sx: { minWidth: "300px" },
       variant: "outlined",
     },

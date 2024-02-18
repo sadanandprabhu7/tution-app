@@ -29,23 +29,12 @@ const TeacherSchema = new mongoose.Schema({
     default: "10%",
     required: true,
   },
-  status: {
-    address_status: {
-      type: Boolean,
-      default: false,
-    },
-    time_status: {
-      type: Boolean,
-      default: false,
-    },
-    class_status: {
-      type: Boolean,
-      default: false,
-    },
-    subject_status: {
-      type: Boolean,
-      default: false,
-    },
+  verification_status: {
+    type: Boolean,
+    default: false,
+  },
+  otp: {
+    type: Number,
   },
   profile: {
     type: String,

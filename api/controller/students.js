@@ -51,7 +51,55 @@ class StudentsController {
       res.status(500).json({ status: false, message: "Internal Server Error" });
     }
   }
-
+  static async studentsVerify(req, res) {
+    try {
+      const {
+        first_name,
+        last_name,
+        // age,
+        // address,
+        email,
+        // mobile,
+        // subjects,
+        password,
+        profile,
+        // gender,
+      } = req.body;
+      // const findUser = await Student.findOne({
+      //   $or: [{ email: { $eq: email } }, { mobile: { $eq: mobile } }],
+      // });
+      const findUser = await Student.findOne({
+        email: email,
+      });
+      if (findUser) {
+        res.status(404).json({
+          status: false,
+          message: "users exist use another email or mobile",
+        });
+        return;
+      } else {
+        const hashPass = await CommanFunction.hashPassword(password);
+        const user = new Student({
+          first_name,
+          last_name,
+          // age,
+          // address,
+          email,
+          // mobile,
+          // subjects,
+          password: hashPass,
+          profile,
+          // gender,
+        });
+        const data = await user.save();
+        res
+          .status(200)
+          .json({ status: true, message: "student sucessfuly resgistered" });
+      }
+    } catch (error) {
+      res.status(500).json({ status: false, message: "Internal Server Error" });
+    }
+  }
   static async studentsLogin(req, res) {
     try {
       const { email, password } = req.query;

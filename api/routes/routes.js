@@ -9,10 +9,14 @@ Router.route("/").get((req, res) => {
 });
 
 Router.route("/student/add").post(studentsController.studentsCreation);
+Router.route("/student/add/verify").post(studentsController.studentsVerify);
+
 Router.route("/student/login").get(studentsController.studentsLogin);
 
 Router.route("/teacher/add").post(teachersController.teachersCreation);
-Router.route("/teacher/login").get(teachersController.teachersLogin);
+Router.route("/teacher/add/verify").post(teachersController.teachersVerify);
+
+Router.route("/teacher/login").get(teachersController.teachersVerify);
 
 Router.use(Authorization.studentsAuthentication);
 Router.route("/allstudents").get(studentsController.allStudents);

@@ -2,44 +2,27 @@ const mongoose = require("mongoose");
 const Teacher = require("../model/teachers");
 const CommanFunction = require("../utils/commanFunction");
 const Entities = require("../services/entities");
+const validator = require("email-validator");
+const MailService = require("../services/mailService");
+const otpGenerator = require("otp-generator");
 class TeachersController {
   static async teachersCreation(req, res) {
     try {
       const {
         first_name,
         last_name,
-        // age,
-        // address,
         email,
-        // mobile,
-        // subjects,
         password,
         profile,
-        // gender,
         confirmPassword,
       } = req.body;
-      // const errors = await CommanFunction.validationCheck(
-      first_name,
-        last_name,
-        // age,
-        // address,
-        email,
-        // mobile,
-        // subjects,
-        password,
-        profile,
-        // gender,
-        confirmPassword;
-      // );
-      // if (errors.length > 0) {
-      //   return res.status(400).json({ message: errors });
-      // }
-
-      // const findUser = await Teacher.findOne({
-      //   $or: [{ email: { $eq: email } },
-      //      { mobile: { $eq: mobile } }
-      //     ],
-      // });
+      const emailCheck = validator.validate(email);
+      console.log(emailCheck, "emailCheck++++++++");
+      if (!emailCheck) {
+        return res
+          .status(400)
+          .json({ status: false, message: "Not Valid Email" });
+      }
       const findUser = await Teacher.findOne({
         email: email,
       });
@@ -50,28 +33,76 @@ class TeachersController {
         });
       } else {
         const hashPass = await CommanFunction.hashPassword(password);
+        const otp = otpGenerator.generate(6, {
+          upperCaseAlphabets: false,
+          specialChars: false,
+          lowerCaseAlphabets: false,
+          specialChars: false,
+        });
+        // console.log(otp, "otp+++++++++++++++");
         const user = new Teacher({
           first_name,
           last_name,
-          // age,
-          // address,
           email,
-          // mobile,
-          // subjects,
           password: hashPass,
           profile,
-          // gender,
+          otp,
         });
-        const data = await user.save();
-        res
-          .status(200)
-          .json({ status: true, message: "teacher successful register" });
+        let passEmailVariable = {
+          userName: `${first_name} ${last_name}`,
+          email: "sadanand@vaminfosys.com",
+          domainName: "test",
+          ServerUrl: process.env.REACT_APP_API_BASE_PATH,
+          OTP: otp,
+        };
+        // const result = await MailService.welcomeemail(passEmailVariable);
+        const result = true;
+        if (!result) {
+          return res.status(404).json({
+            status: false,
+            message: "error while sending otp",
+          });
+        }
+        if (result) {
+          await user.save();
+          res.status(200).json({
+            status: true,
+            message: "OTP sent to your mail please check !!",
+          });
+        }
+        // res
+        //   .status(200)
+        //   .json({ status: true, message: "teacher successful register" });
       }
     } catch (error) {
       res.status(500).json({ status: false, message: "Internal Server Error" });
     }
   }
-
+  static async teachersVerify(req, res) {
+    try {
+      const { otp, TempProfile, TempEmail } = req.body;
+      // console.log(req.body, "body verify++++++++++++++++++++++++++++++");
+      const findUser = await Teacher.findOne({
+        email: TempEmail,
+      });
+      if (!findUser) {
+        return res.status(404).json({
+          status: false,
+          message: "user does not exist ",
+        });
+      } else if (findUser.otp !== parseInt(otp)) {
+        return res.status(404).json({
+          status: false,
+          message: "Invalid otp",
+        });
+      }
+      res
+        .status(200)
+        .json({ status: true, message: "teacher successful register" });
+    } catch (error) {
+      res.status(500).json({ status: false, message: "Internal Server Error" });
+    }
+  }
   static async teachersLogin(req, res) {
     try {
       const { email, password } = req.query;

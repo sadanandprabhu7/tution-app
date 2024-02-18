@@ -18,6 +18,35 @@ export const teacherSignUpCall =
     }
   };
 
+export const teacherVerifyOtp =
+  (payload, successCallback, failureCallback) => async () => {
+    try {
+      console.log("in api++++++++++++++++++");
+      const data = await post(urls.TEACHER_VERIFY, payload);
+
+      if (typeof successCallback === "function") {
+        successCallback(data);
+      }
+    } catch (err) {
+      if (typeof failureCallback === "function") {
+        failureCallback(err);
+      }
+    }
+  };
+export const studentVerifyOtp =
+  (payload, successCallback, failureCallback) => async () => {
+    try {
+      const data = await post(urls.STUDENT_VERIFY, payload);
+
+      if (typeof successCallback === "function") {
+        successCallback(data);
+      }
+    } catch (err) {
+      if (typeof failureCallback === "function") {
+        failureCallback(err);
+      }
+    }
+  };
 export const studentSignUpCall =
   (payload, successCallback, failureCallback) => async () => {
     try {

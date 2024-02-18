@@ -5,6 +5,13 @@ const StudendSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  verification_status: {
+    type: Boolean,
+    default: false,
+  },
+  otp: {
+    type: Number,
+  },
   first_name: {
     type: String,
     required: true,
