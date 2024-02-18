@@ -96,6 +96,10 @@ class TeachersController {
           message: "Invalid otp",
         });
       }
+      await Teacher.findOneAndUpdate(
+        { email: TempEmail },
+        { verification_status: true }
+      );
       res
         .status(200)
         .json({ status: true, message: "teacher successful register" });
@@ -107,7 +111,7 @@ class TeachersController {
     try {
       const { email, password } = req.query;
       const findUser = await Teacher.findOne({ email });
-      if (!findUser) {
+      if (!findUser || !findUser.verification_status) {
         return res
           .status(404)
           .json({ status: false, message: "wrong credentials email/password" });

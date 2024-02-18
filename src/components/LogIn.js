@@ -3,7 +3,10 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginRequest } from "../Redux/Actions/LoginAction";
+import {
+  loginRequest,
+  studentLoginRequest,
+} from "../Redux/Actions/LoginAction";
 import { useSnackbar } from "notistack";
 import { getUserProfile } from "../Redux/Actions/LoginAction";
 import { getEntities } from "../Redux/Actions/LoginAction";
@@ -47,6 +50,8 @@ const LogIn = (props) => {
     e.preventDefault();
     if (loginObj.profile === "teacher") {
       props.loginRequest(loginObj);
+    } else {
+      props.studentLoginRequest(loginObj);
     }
   };
   return (
@@ -122,6 +127,7 @@ const LogIn = (props) => {
 };
 LogIn.propTypes = {
   loginRequest: PropTypes.func,
+  studentLoginRequest: PropTypes.func,
   getUserProfile: PropTypes.func,
   getEntities: PropTypes.func,
   userData: PropTypes.any,
@@ -135,4 +141,5 @@ export default connect(mapStateToProps, {
   loginRequest,
   getUserProfile,
   getEntities,
+  studentLoginRequest,
 })(LogIn);

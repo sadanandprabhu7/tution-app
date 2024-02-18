@@ -12,6 +12,17 @@ export const loginRequest = (data) => (dispatch) => {
     body: data,
   });
 };
+
+export const studentLoginRequest = (data) => (dispatch) => {
+  dispatch({ type: types.STUDENT_LOGIN_API });
+  get({
+    url: `${urls.STUDENT_LOGIN}`,
+    success: types.SET_STUDENT_LOGIN,
+    failure: types.SET_STUDENT_LOGIN_ERROR,
+    dispatch,
+    body: data,
+  });
+};
 export const logout = () => ({
   type: types.SET_LOGOUT,
 });

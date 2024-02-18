@@ -24,7 +24,7 @@ const VerifyOtp = (props) => {
   const TempEmail = localStorage.getItem("TempEmail");
 
   const onSubmitHandler = async (e) => {
-    console.log("inside ++++++++++++++++++++++++++");
+    // console.log("inside ++++++++++++++++++++++++++");
     e.preventDefault();
     if (!TempProfile && !TempEmail) {
       enqueueSnackbar(`error while verifying otp`, {
@@ -40,7 +40,7 @@ const VerifyOtp = (props) => {
         TempProfile: TempProfile,
         TempEmail: TempEmail,
       };
-      console.log(obj, "obj++++++++++++++++++");
+      //   console.log(obj, "obj++++++++++++++++++");
       verifyCall(
         obj,
         (res) => {
