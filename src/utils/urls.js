@@ -9,6 +9,8 @@ export const TEACHER_SIGNUP = `${url}/teacher/add`;
 export const STUDENT_VERIFY = `${url}/student/add/verify`;
 export const TEACHER_VERIFY = `${url}/teacher/add/verify`;
 
+export const USERS_UPDATE = `${url}/users/update`;
+
 export const TEACHER_ADDRESS = `${url}/teachers/update/address`;
 export const TEACHER_TIMES = `${url}/teachers/update/time`;
 export const TEACHER_CLASSES = `${url}/teachers/update/class`;

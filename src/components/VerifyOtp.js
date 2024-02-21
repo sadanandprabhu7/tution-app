@@ -20,28 +20,23 @@ const VerifyOtp = (props) => {
       [name]: value,
     }));
   };
-  const TempProfile = localStorage.getItem("TempProfile");
   const TempEmail = localStorage.getItem("TempEmail");
 
   const onSubmitHandler = async (e) => {
     // console.log("inside ++++++++++++++++++++++++++");
     e.preventDefault();
-    if (!TempProfile && !TempEmail) {
+    if (!TempEmail) {
       enqueueSnackbar(`error while verifying otp`, {
         variant: "error",
       });
     } else {
-      const verifyCall =
-        TempProfile === "teacher"
-          ? props.teacherVerifyOtp
-          : props.studentVerifyOtp;
       const obj = {
         otp: otp.otp,
-        TempProfile: TempProfile,
+        // TempProfile: TempProfile,
         TempEmail: TempEmail,
       };
       //   console.log(obj, "obj++++++++++++++++++");
-      verifyCall(
+      props.teacherVerifyOtp(
         obj,
         (res) => {
           if (res?.status === true) {

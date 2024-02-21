@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { updateTeachersSubject } from "../../api_operations/actions";
+import { updateUsers } from "../../api_operations/actions";
 import { useSnackbar } from "notistack";
 import {
   signUpState,
@@ -49,7 +49,7 @@ const Subjects = (props) => {
     const obj = {
       subjects: updatedSubjectsNew,
     };
-    props.updateTeachersSubject(
+    props.updateUsers(
       obj,
       (res) => {
         if (res?.status === true) {
@@ -115,7 +115,7 @@ const Subjects = (props) => {
 };
 
 Subjects.propTypes = {
-  updateTeachersSubject: PropTypes.func,
+  updateUsers: PropTypes.func,
   signUpState: PropTypes.func,
   getUserProfile: PropTypes.func,
   entities: PropTypes.any,
@@ -129,7 +129,7 @@ const mapStateToProps = ({ app }) => ({
 });
 
 export default connect(mapStateToProps, {
-  updateTeachersSubject,
+  updateUsers,
   signUpState,
   getUserProfile,
   getEntities,

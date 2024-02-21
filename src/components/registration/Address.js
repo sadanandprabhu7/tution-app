@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { updateTeachersAddress } from "../../api_operations/actions";
+import { updateUsers } from "../../api_operations/actions";
 import { signUpState } from "../../Redux/Actions/LoginAction";
 
 import { useSnackbar } from "notistack";
@@ -22,7 +22,7 @@ const Address = (props) => {
 
   const saveAddressHandler = async (e) => {
     e.preventDefault();
-    props.updateTeachersAddress(
+    props.updateUsers(
       address,
       (res) => {
         if (res?.status === true) {
@@ -84,7 +84,7 @@ const Address = (props) => {
 };
 
 Address.propTypes = {
-  updateTeachersAddress: PropTypes.func,
+  updateUsers: PropTypes.func,
   signUpState: PropTypes.func,
 };
 
@@ -93,6 +93,6 @@ const mapStateToProps = ({ app }) => ({
 });
 
 export default connect(mapStateToProps, {
-  updateTeachersAddress,
+  updateUsers,
   signUpState,
 })(Address);

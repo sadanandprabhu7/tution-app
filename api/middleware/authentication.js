@@ -1,5 +1,4 @@
-const Teacher = require("../model/teachers");
-const Student = require("../model/students");
+const Users = require("../model/users");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -12,7 +11,7 @@ class Authorization {
       return "invalid token";
     }
   }
-  static async teachersAuthentication(req, res, next) {
+  static async Authentication(req, res, next) {
     try {
       const token = req.headers.authorization
         ? req.headers.authorization
@@ -27,31 +26,8 @@ class Authorization {
           .json({ status: false, message: "Authentication failed" });
       const { id } = verified;
       if (id) {
-        const teacher = await Teacher.findById(id);
-        req.user = teacher;
-        next();
-      }
-    } catch (err) {
-      res.status(500).json({ message: "server error" });
-    }
-  }
-  static async studentsAuthentication(req, res, next) {
-    try {
-      const token = req.headers.authorization
-        ? req.headers.authorization
-        : null;
-      if (!token)
-        return res.status(403).json({ message: "please login again" });
-      const key = process.env.SECRETE_KEY_JWT;
-      const verified = await Authorization.verifyToken(token, key);
-      if (verified === "invalid token")
-        return res
-          .status(403)
-          .json({ status: false, message: "Authentication failed" });
-      const { id } = verified;
-      if (id) {
-        const teacher = await Student.findById(id);
-        req.user = teacher;
+        const user = await Users.findById(id);
+        req.user = user;
         next();
       }
     } catch (err) {

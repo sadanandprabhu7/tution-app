@@ -48,11 +48,7 @@ const LogIn = (props) => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-    if (loginObj.profile === "teacher") {
-      props.loginRequest(loginObj);
-    } else {
-      props.studentLoginRequest(loginObj);
-    }
+    props.loginRequest(loginObj);
   };
   return (
     <div className="container-sm">

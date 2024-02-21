@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { updateTeachersTime } from "../../api_operations/actions";
+import { updateUsers } from "../../api_operations/actions";
 import { useSnackbar } from "notistack";
 import { signUpState, getEntities } from "../../Redux/Actions/LoginAction";
 const Times = (props) => {
@@ -39,7 +39,7 @@ const Times = (props) => {
     const obj = {
       times: updatedTimesNew,
     };
-    props.updateTeachersTime(
+    props.updateUsers(
       obj,
       (res) => {
         if (res?.status === true) {
@@ -97,7 +97,7 @@ const Times = (props) => {
 };
 
 Times.propTypes = {
-  updateTeachersTime: PropTypes.func,
+  updateUsers: PropTypes.func,
   signUpState: PropTypes.func,
   entities: PropTypes.any,
   getEntities: PropTypes.func,
@@ -109,7 +109,7 @@ const mapStateToProps = ({ app }) => ({
 });
 
 export default connect(mapStateToProps, {
-  updateTeachersTime,
+  updateUsers,
   signUpState,
   getEntities,
 })(Times);

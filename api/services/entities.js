@@ -15,7 +15,7 @@ class entities {
       const db = client.db(DB_NAME);
       const collection = db.collection(PINCODES_COLLECTION_NAME);
       const result = await collection.find(query).toArray();
-      console.log("result+++++++++++++++++++++++++++", result);
+      // console.log("result+++++++++++++++++++++++++++", result);
 
       return result;
     } catch (error) {
@@ -31,7 +31,7 @@ class entities {
       const db = client.db(DB_NAME);
       const collection = db.collection(SUBJECTS_COLLECTION_NAME);
       const result = await collection.find({}).toArray();
-      console.log("result+++++++++++++++++++++++++++", result);
+      // console.log("result+++++++++++++++++++++++++++", result);
 
       return result;
     } catch (error) {
@@ -47,7 +47,7 @@ class entities {
       const db = client.db(DB_NAME);
       const collection = db.collection(CLASSES_COLLECTION_NAME);
       const result = await collection.find({}).toArray();
-      console.log("result+++++++++++++++++++++++++++", result);
+      // console.log("result+++++++++++++++++++++++++++", result);
 
       return result;
     } catch (error) {
@@ -63,7 +63,7 @@ class entities {
       const db = client.db(DB_NAME);
       const collection = db.collection(TIMES_COLLECTION_NAME);
       const result = await collection.find({}).toArray();
-      console.log("result+++++++++++++++++++++++++++", result);
+      // console.log("result+++++++++++++++++++++++++++", result);
 
       return result;
     } catch (error) {

@@ -16,6 +16,7 @@ export default {
     current_status: false,
     entities: false,
     profile: false,
+    studentProfile: false,
     portalConfig: false,
   },
 };

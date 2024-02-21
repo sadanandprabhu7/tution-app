@@ -38,9 +38,7 @@ const SignUp = (props) => {
         variant: "error",
       });
     } else {
-      const signUpCall =
-        signUpObj.profile === "teacher" ? teacherSignUpCall : studentSignUpCall;
-      signUpCall(
+      teacherSignUpCall(
         signUpObj,
         (res) => {
           if (res?.status === true) {
@@ -49,9 +47,9 @@ const SignUp = (props) => {
             });
             setsendOtp(true);
             localStorage.setItem("TempEmail", signUpObj.email);
-            const profile =
-              signUpObj.profile === "teacher" ? "teacher" : "student";
-            localStorage.setItem("TempProfile", profile);
+            // const profile =
+            //   signUpObj.profile === "teacher" ? "teacher" : "student";
+            // localStorage.setItem("TempProfile", profile);
           } else {
             enqueueSnackbar(`${res.message}`, {
               variant: "error",

@@ -12,7 +12,7 @@ async function findPineCode(query) {
     const db = client.db(DB_NAME);
     const collection = db.collection(COLLECTION_NAME);
     const result = await collection.find(query).toArray();
-    console.log("result+++++++++++++++++++++++++++", result);
+    // console.log("result+++++++++++++++++++++++++++", result);
 
     return result;
   } catch (error) {
