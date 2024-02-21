@@ -3,14 +3,11 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
-import {
-  teacherSignUpCall,
-  studentSignUpCall,
-} from "../api_operations/actions";
+import { teacherSignUpCall } from "../api_operations/actions";
 
 import VerifyOtp from "./VerifyOtp";
 const SignUp = (props) => {
-  const { teacherSignUpCall, studentSignUpCall } = props;
+  const { teacherSignUpCall } = props;
   const [sendOtp, setsendOtp] = useState(null);
 
   const { enqueueSnackbar } = useSnackbar();
@@ -183,7 +180,6 @@ const SignUp = (props) => {
 
 SignUp.propTypes = {
   teacherSignUpCall: PropTypes.func,
-  studentSignUpCall: PropTypes.func,
 };
 
 const mapStateToProps = ({ app }) => ({
@@ -192,5 +188,4 @@ const mapStateToProps = ({ app }) => ({
 
 export default connect(mapStateToProps, {
   teacherSignUpCall,
-  studentSignUpCall,
 })(SignUp);

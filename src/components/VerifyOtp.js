@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSnackbar } from "notistack";
-import { teacherVerifyOtp, studentVerifyOtp } from "../api_operations/actions";
+import { teacherVerifyOtp } from "../api_operations/actions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -86,7 +86,6 @@ const VerifyOtp = (props) => {
 };
 VerifyOtp.propTypes = {
   teacherVerifyOtp: PropTypes.func,
-  studentVerifyOtp: PropTypes.func,
 };
 
 const mapStateToProps = ({ app }) => ({
@@ -95,5 +94,4 @@ const mapStateToProps = ({ app }) => ({
 
 export default connect(mapStateToProps, {
   teacherVerifyOtp,
-  studentVerifyOtp,
 })(VerifyOtp);

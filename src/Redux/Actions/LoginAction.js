@@ -3,26 +3,16 @@ import { get } from "../Helper/index";
 import * as urls from "../../utils/urls";
 
 export const loginRequest = (data) => (dispatch) => {
-  dispatch({ type: types.TEACHER_LOGIN_API });
+  dispatch({ type: types.USERS_LOGIN_API });
   get({
-    url: `${urls.TEACHER_LOGIN}`,
-    success: types.SET_TEACHER_LOGIN,
-    failure: types.SET_TEACHER_LOGIN_ERROR,
+    url: `${urls.USERS_LOGIN}`,
+    success: types.SET_USERS_LOGIN,
+    failure: types.SET_USERS_LOGIN_ERROR,
     dispatch,
     body: data,
   });
 };
 
-export const studentLoginRequest = (data) => (dispatch) => {
-  dispatch({ type: types.STUDENT_LOGIN_API });
-  get({
-    url: `${urls.STUDENT_LOGIN}`,
-    success: types.SET_STUDENT_LOGIN,
-    failure: types.SET_STUDENT_LOGIN_ERROR,
-    dispatch,
-    body: data,
-  });
-};
 export const logout = () => ({
   type: types.SET_LOGOUT,
 });
@@ -35,7 +25,7 @@ export const signUpState = (data) => ({
 export const getUserProfile = (data) => (dispatch) => {
   dispatch({ type: types.USERS_PROFILE_API });
   get({
-    url: `${urls.USER_PROFILE}`,
+    url: `${urls.USERS_PROFILE}`,
     success: types.SET_USERS_PROFILE_STATUS,
     failure: types.SET_USERS_PROFILE_STATUS_ERROR,
     dispatch,
@@ -46,7 +36,7 @@ export const getUserProfile = (data) => (dispatch) => {
 export const getEntities = (data) => (dispatch) => {
   dispatch({ type: types.USERS_ENTITIES_API });
   get({
-    url: `${urls.USER_ENTITIES}`,
+    url: `${urls.USERS_ENTITIES}`,
     success: types.SET_USERS_ENTITIES_STATUS,
     failure: types.SET_USERS_ENTITIES_STATUS_ERROR,
     dispatch,

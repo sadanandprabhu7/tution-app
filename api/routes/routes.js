@@ -7,13 +7,13 @@ Router.route("/").get((req, res) => {
   res.send("test api");
 });
 
-Router.route("/teacher/add").post(UserController.UsersCreation);
-Router.route("/teacher/add/verify").post(UserController.UsersVerify);
-Router.route("/teacher/login").get(UserController.UsersLogin);
+Router.route("/users/add").post(UserController.UsersCreation);
+Router.route("/users/add/verify").post(UserController.UsersVerify);
+Router.route("/users/login").get(UserController.UsersLogin);
 
 Router.use(Authorization.Authentication);
 Router.route("/users/update").post(UserController.UpdateUser);
-Router.route("/user/profile").get(users.getUserProfile);
-Router.route("/user/entities").get(users.getEntities);
+Router.route("/users/profile").get(users.getUserProfile);
+Router.route("/users/entities").get(users.getEntities);
 
 module.exports = Router;

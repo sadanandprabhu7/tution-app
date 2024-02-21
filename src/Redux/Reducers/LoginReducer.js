@@ -3,9 +3,9 @@ import initialState from "./initialState";
 
 const app = (state = initialState.app, action) => {
   switch (action.type) {
-    case types.TEACHER_LOGIN_API:
+    case types.USERS_LOGIN_API:
       return { ...state, loading: true, userDetails: false };
-    case types.SET_TEACHER_LOGIN:
+    case types.SET_USERS_LOGIN:
       return {
         ...state,
         loading: false,
@@ -15,23 +15,7 @@ const app = (state = initialState.app, action) => {
         token: action.data.token,
         current_status: action.data.current_status,
       };
-    case types.SET_TEACHER_LOGIN_ERROR:
-      return { ...state, error: true };
-
-    case types.STUDENT_LOGIN_API:
-      return { ...state, loading: true, userDetails: false };
-    case types.SET_STUDENT_LOGIN:
-      return {
-        ...state,
-        loading: false,
-        success: true,
-        userDetails: action.data,
-        loggedIn: true,
-        token: action.data.token,
-        studentProfile: action.data.profile,
-        current_status: action.data.current_status,
-      };
-    case types.SET_STUDENT_LOGIN_ERROR:
+    case types.SET_USERS_LOGIN_ERROR:
       return { ...state, error: true };
 
     case types.USERS_PROFILE_API:
