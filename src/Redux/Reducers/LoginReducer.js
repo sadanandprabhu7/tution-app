@@ -4,13 +4,13 @@ import initialState from "./initialState";
 const app = (state = initialState.app, action) => {
   switch (action.type) {
     case types.USERS_LOGIN_API:
-      return { ...state, loading: true, userDetails: false };
+      return { ...state, loading: true, userLoginData: false };
     case types.SET_USERS_LOGIN:
       return {
         ...state,
         loading: false,
         success: true,
-        userDetails: action.data,
+        userLoginData: action.data,
         loggedIn: true,
         token: action.data.token,
         current_status: action.data.current_status,
@@ -19,14 +19,14 @@ const app = (state = initialState.app, action) => {
       return { ...state, error: true };
 
     case types.USERS_PROFILE_API:
-      return { ...state, loading: true, profile: false };
+      return { ...state, loading: true, userData: false };
     case types.SET_USERS_PROFILE_STATUS:
       return {
         ...state,
         loading: false,
         success: true,
         loggedIn: true,
-        profile: action.data.data,
+        userData: action.data.data,
         current_status: action.data.data.current_status,
       };
     case types.SET_USERS_PROFILE_STATUS_ERROR:
@@ -45,11 +45,24 @@ const app = (state = initialState.app, action) => {
     case types.SET_USERS_ENTITIES_STATUS_ERROR:
       return { ...state, error: true };
 
+    case types.GETENTITIES_LIST_API:
+      return { ...state, loading: true, entities_list: false };
+    case types.SET_GETENTITIES_LIST_STATUS:
+      return {
+        ...state,
+        loading: false,
+        success: true,
+        loggedIn: true,
+        entities_list: action.data.data,
+      };
+    case types.SET_GETENTITIES_LIST_STATUS_ERROR:
+      return { ...state, error: true };
+
     case types.SET_SIGNUP_STATE:
       return { ...state, current_status: action.data };
 
     case types.SET_LOGOUT:
-      return { ...state, userDetails: false };
+      return { ...state, userLoginData: false };
 
     default:
       return state;

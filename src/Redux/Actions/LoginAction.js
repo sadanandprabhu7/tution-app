@@ -43,3 +43,14 @@ export const getEntities = (data) => (dispatch) => {
     body: data,
   });
 };
+
+export const getEntitiesList = (data) => (dispatch) => {
+  dispatch({ type: types.GETENTITIES_LIST_API });
+  get({
+    url: `${urls.GETENTITIES_LIST}`,
+    success: types.SET_GETENTITIES_LIST_STATUS,
+    failure: types.SET_GETENTITIES_LIST_STATUS_ERROR,
+    dispatch,
+    body: data,
+  });
+};

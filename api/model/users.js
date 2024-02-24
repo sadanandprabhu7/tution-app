@@ -23,6 +23,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    mobile_no: {
+      type: String,
+      required: true,
+    },
     pin_code: {
       type: Number,
     },

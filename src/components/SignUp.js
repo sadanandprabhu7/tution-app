@@ -19,6 +19,7 @@ const SignUp = (props) => {
     password: "",
     c_password: "",
     profile: "",
+    mobile_no: "",
   });
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -78,6 +79,20 @@ const SignUp = (props) => {
                 name="email"
                 aria-describedby="emailHelp"
                 value={signUpObj.email}
+                onChange={onChangeHandler}
+              />
+            </div>
+            <div className="mb-3 ">
+              <label htmlFor="mobile_no" className="form-label">
+                Mobile No
+              </label>
+              <input
+                type="mobile_no"
+                className="form-control"
+                id="mobile_no"
+                name="mobile_no"
+                aria-describedby="mobile_noHelp"
+                value={signUpObj.mobile_no}
                 onChange={onChangeHandler}
               />
             </div>

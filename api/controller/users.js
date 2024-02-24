@@ -4,6 +4,8 @@ const Users = require("../model/users");
 const validator = require("email-validator");
 const otpGenerator = require("otp-generator");
 const MailService = require("../services/mailService");
+const SendOtp = require("sendotp");
+const sendOtp = new SendOtp("AuthKey");
 
 class users {
   static async UsersCreation(req, res) {
@@ -14,13 +16,18 @@ class users {
         email,
         password,
         profile,
+        mobile_no,
         confirmPassword,
       } = req.body;
+      // console.log(req.body, "req.body+++++++++++++++");
+      const mobileCheck = await CommanFunction.checkMobile(mobile_no);
+      // console.log(mobileCheck, "mobileCheck++++++++++");
       const emailCheck = validator.validate(email);
-      if (!emailCheck) {
-        return res
-          .status(400)
-          .json({ status: false, message: "Not Valid Email" });
+      if (!emailCheck || !mobileCheck) {
+        return res.status(400).json({
+          status: false,
+          message: "Not Valid Email or Mobile No Please check",
+        });
       }
       const findUser = await Users.findOne({
         email: email,
@@ -48,6 +55,7 @@ class users {
           profile_name: profile,
           profile_id: profile == "teacher" ? 1 : 2,
           otp,
+          mobile_no,
         });
         let passEmailVariable = {
           userName: `${first_name} ${last_name}`,
@@ -231,6 +239,8 @@ class users {
         name: `${req.user?.first_name} ${req.user?.last_name}`,
         email: req?.user?.email,
         current_status: req?.user?.current_status,
+        profile_id: req?.user?.profile_id,
+        profile_name: req.user?.profile_name,
       };
       res.status(200).json({ data: userData, message: "successful" });
     } catch (err) {
@@ -248,6 +258,15 @@ class users {
         classes,
       };
       res.status(200).json({ data: entities, message: "successful" });
+    } catch (err) {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+  static async getEntitiesList(req, res) {
+    try {
+      const profile_id = req?.query?.profile_id == 1 ? 2 : 1;
+      const list = await Users.find({ profile_id: profile_id });
+      res.status(200).json({ data: list, message: "successful" });
     } catch (err) {
       res.status(500).json({ message: "Internal Server Error" });
     }

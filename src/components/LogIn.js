@@ -24,24 +24,27 @@ const LogIn = (props) => {
     }));
   };
   useEffect(() => {
-    if (props.userData) {
-      if (props.userData && props.userData.status) {
+    if (props.userLoginData) {
+      if (props.userLoginData && props.userLoginData.status) {
         localStorage.clear();
-        localStorage.setItem("token", props.userData.token);
-        localStorage.setItem("current_status", props.userData.current_status);
-        enqueueSnackbar(`${props.userData.message}`, {
+        localStorage.setItem("token", props.userLoginData.token);
+        localStorage.setItem(
+          "current_status",
+          props.userLoginData.current_status
+        );
+        enqueueSnackbar(`${props.userLoginData.message}`, {
           variant: "success",
         });
         props.getUserProfile();
         props.getEntities();
         navigate("/MyProfile");
       } else {
-        enqueueSnackbar(`${props.userData.message}`, {
+        enqueueSnackbar(`${props.userLoginData.message}`, {
           variant: "error",
         });
       }
     }
-  }, [props.userData]);
+  }, [props.userLoginData]);
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -122,11 +125,11 @@ LogIn.propTypes = {
   loginRequest: PropTypes.func,
   getUserProfile: PropTypes.func,
   getEntities: PropTypes.func,
-  userData: PropTypes.any,
+  userLoginData: PropTypes.any,
 };
 
 const mapStateToProps = ({ app }) => ({
-  userData: app.userDetails,
+  userLoginData: app.userLoginData,
 });
 
 export default connect(mapStateToProps, {

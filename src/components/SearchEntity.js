@@ -1,15 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
+import { getEntitiesList } from "../Redux/Actions/LoginAction";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import {
   MaterialReactTable,
   useMaterialReactTable,
 } from "material-react-table";
-const SearchEntity = () => {
+const SearchEntity = (props) => {
+  console.log(props, "props+++++++++++++++++++++++");
   //data and fetching state
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(props.entities_list);
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefetching, setIsRefetching] = useState(false);
-  const [rowCount, setRowCount] = useState(0);
+  const [rowCount, setRowCount] = useState(props.entities_list.length);
 
   //table state
   const [columnFilters, setColumnFilters] = useState([]);
@@ -19,62 +23,67 @@ const SearchEntity = () => {
     pageIndex: 0,
     pageSize: 10,
   });
-
+  // console.log(json, "data++++++++++++++");
   //if you want to avoid useEffect, look at the React Query example instead
   useEffect(() => {
-    const fetchData = async () => {
-      if (!data.length) {
-        setIsLoading(true);
-      } else {
-        setIsRefetching(true);
-      }
+    if (props.entities_list === false) {
+      props.getEntitiesList();
+      setData(props.entities_list);
+      setRowCount(props.entities_list.length);
+    }
+    // const fetchData = async () => {
+    //   if (!data.length) {
+    //     setIsLoading(true);
+    //   } else {
+    //     setIsRefetching(true);
+    //   }
 
-      // const url = new URL(
-      //   '/api/data',
-      //   process.env.NODE_ENV === 'production'
-      //     ? 'https://www.material-react-table.com'
-      //     : 'http://localhost:3000',
-      // );
-      // url.searchParams.set(
-      //   'start',
-      //   `${pagination.pageIndex * pagination.pageSize}`,
-      // );
-      // url.searchParams.set('size', `${pagination.pageSize}`);
-      // url.searchParams.set('filters', JSON.stringify(columnFilters ?? []));
-      // url.searchParams.set('globalFilter', globalFilter ?? '');
-      // url.searchParams.set('sorting', JSON.stringify(sorting ?? []));
+    //   // const url = new URL(
+    //   //   '/api/data',
+    //   //   process.env.NODE_ENV === 'production'
+    //   //     ? 'https://www.material-react-table.com'
+    //   //     : 'http://localhost:3000',
+    //   // );
+    //   // url.searchParams.set(
+    //   //   'start',
+    //   //   `${pagination.pageIndex * pagination.pageSize}`,
+    //   // );
+    //   // url.searchParams.set('size', `${pagination.pageSize}`);
+    //   // url.searchParams.set('filters', JSON.stringify(columnFilters ?? []));
+    //   // url.searchParams.set('globalFilter', globalFilter ?? '');
+    //   // url.searchParams.set('sorting', JSON.stringify(sorting ?? []));
 
-      try {
-        var myHeaders = new Headers();
-        myHeaders.append(
-          "Authorization",
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YzUyOWI4MGM2NWE3MjgzNzQ1ZjE5ZCIsImlhdCI6MTcwNzQyMjk5OH0.iLWqOHbJ53LAJdgsNniw6_KBpC3iJidN0F7AufOQ0JI"
-        );
+    //   try {
+    //     var myHeaders = new Headers();
+    //     myHeaders.append(
+    //       "Authorization",
+    //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YzUyOWI4MGM2NWE3MjgzNzQ1ZjE5ZCIsImlhdCI6MTcwNzQyMjk5OH0.iLWqOHbJ53LAJdgsNniw6_KBpC3iJidN0F7AufOQ0JI"
+    //     );
 
-        var requestOptions = {
-          method: "GET",
-          headers: myHeaders,
-          redirect: "follow",
-        };
+    //     var requestOptions = {
+    //       method: "GET",
+    //       headers: myHeaders,
+    //       redirect: "follow",
+    //     };
 
-        const response = await fetch(
-          "http://localhost:3000/allTeachers",
-          requestOptions
-        );
-        const json = await response.json();
-        setData(json);
-        console.log(json, "data++++++++++++++");
-        setRowCount(json.length);
-      } catch (error) {
-        setIsError(true);
-        console.error(error);
-        return;
-      }
-      setIsError(false);
-      setIsLoading(false);
-      setIsRefetching(false);
-    };
-    fetchData();
+    //     const response = await fetch(
+    //       "http://localhost:3000/allTeachers",
+    //       requestOptions
+    //     );
+    //     const json = await response.json();
+    //     setData(json);
+    //     console.log(json, "data++++++++++++++");
+    //     setRowCount(json.length);
+    //   } catch (error) {
+    //     setIsError(true);
+    //     console.error(error);
+    //     return;
+    //   }
+    //   setIsError(false);
+    //   setIsLoading(false);
+    //   setIsRefetching(false);
+    // };
+    // fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     columnFilters,
@@ -86,6 +95,10 @@ const SearchEntity = () => {
 
   const columns = useMemo(
     () => [
+      {
+        accessorKey: "email",
+        header: "email",
+      },
       {
         accessorKey: "first_name",
         header: "First Name",
@@ -157,4 +170,14 @@ const SearchEntity = () => {
   return <MaterialReactTable table={table} />;
 };
 
-export default SearchEntity;
+SearchEntity.propTypes = {
+  current_status: PropTypes.any,
+  getEntitiesList: PropTypes.func,
+};
+const mapStateToProps = ({ app }) => ({
+  entities_list: app.entities_list,
+  userData: app.userData,
+  current_status: app.current_status,
+});
+
+export default connect(mapStateToProps, { getEntitiesList })(SearchEntity);

@@ -14,13 +14,20 @@ class CommanFunction {
     const match = await bcrypt.compare(pass, hash);
     return match;
   }
+  static async checkMobile(mobile_no) {
+    const mobileRegex = /^\d{10}$/;
+    if (!mobileRegex.test(mobile_no)) {
+      return false;
+    }
+    return true;
+  }
   static async validationCheck(
     first_name,
     last_name,
     age,
     address,
     email,
-    mobile,
+    mobile_no,
     subjects,
     password,
     profile,
@@ -68,7 +75,7 @@ class CommanFunction {
 
     // Validate mobile number (10 digits)
     const mobileRegex = /^\d{10}$/;
-    if (!mobileRegex.test(mobile)) {
+    if (!mobileRegex.test(mobile_no)) {
       errors.push("Please enter a valid 10-digit mobile number.");
     }
 

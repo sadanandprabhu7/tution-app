@@ -11,3 +11,4 @@ export const USERS_UPDATE = `${url}/users/update`;
 export const USERS_STATUS = `${url}/teachers/status`;
 export const USERS_PROFILE = `${url}/users/profile`;
 export const USERS_ENTITIES = `${url}/users/entities`;
+export const GETENTITIES_LIST = `${url}/users/entities/list`;

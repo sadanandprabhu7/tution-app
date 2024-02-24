@@ -49,8 +49,7 @@ const Registration = (props) => {
         <Times />
       ) : props.current_status === "75%" ? (
         <Subjects />
-      ) : props.current_status === "90%" &&
-        props.studentDetails.profile === "student" ? (
+      ) : props.current_status === "90%" && props.userData.profile_id === 2 ? (
         <Address />
       ) : (
         <MyProfile />
@@ -60,14 +59,11 @@ const Registration = (props) => {
   );
 };
 Registration.propTypes = {
-  userData: PropTypes.any,
-  studentDetails: PropTypes.any,
   current_status: PropTypes.any,
   getUserProfile: PropTypes.func,
 };
 const mapStateToProps = ({ app }) => ({
-  userData: app,
-  studentDetails: app.userDetails,
+  userData: app.userData,
   current_status: app.current_status,
 });
 

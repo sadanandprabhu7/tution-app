@@ -15,5 +15,6 @@ Router.use(Authorization.Authentication);
 Router.route("/users/update").post(UserController.UpdateUser);
 Router.route("/users/profile").get(users.getUserProfile);
 Router.route("/users/entities").get(users.getEntities);
+Router.route("/users/entities/list").get(users.getEntitiesList);
 
 module.exports = Router;
