@@ -14,7 +14,7 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({ extended: false }));
 app.use(Router);
-
+app.use(express.static(path.resolve(__dirname, "../build")));
 mongoose
   .connect(DB_URL)
   .then(() => {
