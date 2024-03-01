@@ -5,10 +5,11 @@ const noReplyEmailId = process.env.NO_REPLY_EMAILID;
 const noReplyPassword = process.env.NO_REPLY_PASSWORD;
 const hostName = process.env.HOST_NAME;
 const emailPort = process.env.EMAIL_PORT;
-const WelcometemplatePath = fs.readFileSync("api/Template/WelcomeEmail.html", {
-  encoding: "utf-8",
-});
-
+// const WelcometemplatePath = fs.readFileSync("../Template/WelcomeEmail.html", {
+//   encoding: "utf-8",
+// });
+const WelcometemplatePath = true;
+// require("../Template/")
 class MailService {
   static async welcomeemail(passEmailVariable) {
     try {

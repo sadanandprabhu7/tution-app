@@ -62,7 +62,8 @@ class users {
           email: "sadanand@vaminfosys.com",
           domainName: "test",
           ServerUrl: process.env.REACT_APP_API_BASE_PATH,
-          OTP: otp,
+          // OTP: otp,
+          OTP: 1234,
         };
         // const result = await MailService.welcomeemail(passEmailVariable);
         const result = true;
