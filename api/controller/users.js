@@ -54,7 +54,7 @@ class users {
           password: hashPass,
           profile_name: profile,
           profile_id: profile == "teacher" ? 1 : 2,
-          otp,
+          otp: 1234,
           mobile_no,
         });
         let passEmailVariable = {
